@@ -50,6 +50,9 @@ void addNeighbour(Cell* cell, Cell* neighbour)
 
 void syncValue(Cell* cell)
 {
+    if (cell->value == BOMB)
+        return;
+
     enum CellValue value = 0;
 
     for (int i = 0; i < NEIGHBOURS_COUNT; i++)

@@ -102,6 +102,15 @@ void Cell_Should_Sync_Its_Value_By_Checking_Neighbours()
     freeCell(c2);
 }
 
+void Cell_Should_Not_Sync_Its_Value_If_It_Is_Has_Bomb()
+{
+    cell->value = BOMB;
+
+    syncValue(cell);
+
+    TEST_ASSERT_EQUAL_INT(BOMB, cell->value);
+}
+
 void testCell()
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
