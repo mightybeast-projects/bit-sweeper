@@ -18,6 +18,8 @@ typedef struct cell Cell;
 
 struct cell
 {
+    int x;
+    int y;
     bool isOpened;
     bool isMarked;
     enum CellValue value;
@@ -25,4 +27,7 @@ struct cell
 };
 
 Cell* allocateCell();
+
+void addNeighbour(Cell* cell, Cell* neighbour);
+
 void freeCell(Cell* cell);
