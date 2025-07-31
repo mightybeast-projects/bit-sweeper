@@ -17,6 +17,19 @@ void tearDownBitSweep()
 void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
 {
     TEST_ASSERT_NOT_NULL(bitSweep);
+
+    for (int i = 0; i < bitSweep->width; i++)
+    {
+        for (int j = 0; j < bitSweep->height; j++)
+        {
+            if (bitSweep->cells[i][j]->value != BOMB)
+                printf("%d ", bitSweep->cells[i][j]->value);
+            else
+                printf("* ");
+        }
+
+        printf("\n");
+    }
 }
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Width()

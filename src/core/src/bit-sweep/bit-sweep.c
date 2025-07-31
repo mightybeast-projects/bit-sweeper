@@ -116,11 +116,19 @@ static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
             cell->x = i;
             cell->y = j;
 
-            int index = bitSweep->height * i + j;
+            const int index = bitSweep->height * i + j;
 
             for (int k = 0; k < bitSweep->bombCount; k++)
                 if (bombIndexes[k] == index)
                     cell->value = BOMB;
+        }
+    }
+
+    for (int i = 0; i < bitSweep->width; i++)
+    {
+        for (int j = 0; j < bitSweep->height; j++)
+        {
+            Cell* cell = bitSweep->cells[i][j];
 
             const int minX = MAX(0, i - 1);
             const int maxX = MIN(i + 1, bitSweep->width - 1);
@@ -129,8 +137,15 @@ static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
             const int maxJ = MIN(j + 1, bitSweep->height - 1);
 
             for (int k = minX; k <= maxX; k++)
+            {
                 for (int l = minJ; l <= maxJ; l++)
+                {
+                    if (k == i && l == j)
+                        continue;
+
                     addNeighbour(cell, bitSweep->cells[k][l]);
+                }
+            }
 
             syncValue(cell);
         }
