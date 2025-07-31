@@ -1,21 +1,22 @@
-#include "sample.h"
+#include "cell.tests.h"
 #include "stdbool.h"
 #include "unity.h"
 
-void setUp() { }
-
-void tearDown() { }
-
-void Test_Sample()
+void setUp()
 {
-    TEST_ASSERT_TRUE(sample());
+    setUpCell();
+}
+
+void tearDown()
+{
+    tearDownCell();
 }
 
 int main()
 {
     UNITY_BEGIN();
 
-    RUN_TEST(Test_Sample);
+    runCellTests();
 
     return UNITY_END();
 }
