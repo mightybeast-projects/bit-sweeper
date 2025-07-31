@@ -1,6 +1,8 @@
 #include "cell.h"
 #include "stdlib.h"
 
+#define NEIGHBOURS_COUNT 8
+
 Cell* allocateCell()
 {
     Cell* cell = malloc(sizeof(struct cell));
@@ -10,15 +12,18 @@ Cell* allocateCell()
 
     cell->isOpened = false;
     cell->isMarked = false;
-    cell->value = 0;
+    cell->value = ZERO;
 
-    cell->neighbours = malloc(sizeof(Cell*) * 8);
+    cell->neighbours = malloc(sizeof(Cell*) * NEIGHBOURS_COUNT);
 
     if (!cell->neighbours)
     {
         free(cell);
         return NULL;
     }
+
+    for (int i = 0; i < NEIGHBOURS_COUNT; i++)
+        cell->neighbours[i] = NULL;
 
     return cell;
 }
