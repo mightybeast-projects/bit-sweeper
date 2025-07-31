@@ -102,7 +102,7 @@ void Cell_Should_Sync_Its_Value_By_Checking_Neighbours()
     freeCell(c2);
 }
 
-void runCellTests()
+void testCell()
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
 
