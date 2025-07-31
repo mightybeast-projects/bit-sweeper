@@ -30,4 +30,6 @@ Cell* allocateCell();
 
 void addNeighbour(Cell* cell, Cell* neighbour);
 
+void syncValue(Cell* cell);
+
 void freeCell(Cell* cell);

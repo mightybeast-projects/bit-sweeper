@@ -48,7 +48,16 @@ void addNeighbour(Cell* cell, Cell* neighbour)
     *ptr = neighbour;
 }
 
-void syncValue(Cell* cell) { }
+void syncValue(Cell* cell)
+{
+    enum CellValue value = 0;
+
+    for (int i = 0; i < NEIGHBOURS_COUNT; i++)
+        if (cell->neighbours[i] && cell->neighbours[i]->value == BOMB)
+            value++;
+
+    cell->value = value;
+}
 
 void freeCell(Cell* cell)
 {

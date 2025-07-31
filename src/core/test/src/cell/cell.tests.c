@@ -83,6 +83,25 @@ void Cell_Should_Not_Add_Neighbour_If_It_Has_No_Space_For_One()
         freeCell(neighbour[i]);
 }
 
+void Cell_Should_Sync_Its_Value_By_Checking_Neighbours()
+{
+    Cell* c1 = allocateCell();
+    c1->value = BOMB;
+
+    Cell* c2 = allocateCell();
+    c2->value = BOMB;
+
+    addNeighbour(cell, c1);
+    addNeighbour(cell, c2);
+
+    syncValue(cell);
+
+    TEST_ASSERT_EQUAL(TWO, cell->value);
+
+    freeCell(c1);
+    freeCell(c2);
+}
+
 void runCellTests()
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
@@ -95,4 +114,6 @@ void runCellTests()
     RUN_TEST(Cell_Should_Add_Neighbour_To_Itself);
     RUN_TEST(Cell_Should_Not_Add_Same_Neighbour_More_Than_Once);
     RUN_TEST(Cell_Should_Not_Add_Neighbour_If_It_Has_No_Space_For_One);
+
+    RUN_TEST(Cell_Should_Sync_Its_Value_By_Checking_Neighbours);
 }
