@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build",
+			"type": "shell",
+			"command": "cmake --build ${workspaceFolder}/build",
+			"group": "build",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Run tests",
+			"type": "shell",
+			"command": "./bitsweeper-core-tests",
+			"options": {
+				"cwd": "${workspaceFolder}/build/src/core/test"
+			},
+			"group": "test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Build and Run Tests",
+			"dependsOn": ["Build", "Run tests"],
+			"dependsOrder": "sequence",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
+		}
+	]
+}
