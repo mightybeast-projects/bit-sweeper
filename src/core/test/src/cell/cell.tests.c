@@ -4,12 +4,12 @@
 
 Cell* cell;
 
-void setUpCell()
+void setUpCell(void)
 {
     cell = allocateCell();
 }
 
-void tearDownCell()
+void tearDownCell(void)
 {
     freeCell(cell);
 }
@@ -17,6 +17,12 @@ void tearDownCell()
 void Cell_Allocation_Should_Return_Allocated_Cell()
 {
     TEST_ASSERT_NOT_NULL(cell);
+}
+
+void Allocated_Cell_Should_Have_Zero_Zero_Position()
+{
+    TEST_ASSERT_EQUAL_INT(0, cellI(cell));
+    TEST_ASSERT_EQUAL_INT(0, cellJ(cell));
 }
 
 void Allocated_Cell_Should_Not_Be_Opened_By_Default()
@@ -34,7 +40,12 @@ void Allocated_Cell_Should_Have_Zero_Value_By_Default()
     TEST_ASSERT_EQUAL_UINT(ZERO, cellValue(cell));
 }
 
-void Allocated_Cell_Should_Not_Have_Neighbours()
+void Allocated_Cell_Should_Not_Contain_Bomb_By_Default()
+{
+    TEST_ASSERT_FALSE(cellContainsBomb(cell));
+}
+
+void Allocated_Cell_Should_Not_Have_Neighbours_By_Default()
 {
     Cell** neighbours = cellNeighbours(cell);
 
@@ -42,6 +53,21 @@ void Allocated_Cell_Should_Not_Have_Neighbours()
 
     for (int i = 0; i < sizeof(neighbours); i++)
         TEST_ASSERT_NULL(neighbours[i]);
+}
+
+void Cell_Should_Be_Able_To_Set_Its_Indexes()
+{
+    setCellIndexes(cell, 10, 3);
+
+    TEST_ASSERT_EQUAL_UINT(10, cellI(cell));
+    TEST_ASSERT_EQUAL_UINT(3, cellJ(cell));
+}
+
+void Cell_Should_Return_True_On_Bomb_Check_If_It_Contains_A_Bomb()
+{
+    setCellValue(cell, BOMB);
+
+    TEST_ASSERT_TRUE(cellContainsBomb(cell));
 }
 
 void Cell_Should_Add_Neighbour_To_Itself()
@@ -122,14 +148,20 @@ void Cell_Open_Should_Changed_Opened_State()
     TEST_ASSERT_TRUE(cellIsOpened(cell));
 }
 
-void testCell()
+void testCell(void)
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
 
+    RUN_TEST(Allocated_Cell_Should_Have_Zero_Zero_Position);
     RUN_TEST(Allocated_Cell_Should_Not_Be_Opened_By_Default);
     RUN_TEST(Allocated_Cell_Should_Not_Be_Marked_By_Default);
     RUN_TEST(Allocated_Cell_Should_Have_Zero_Value_By_Default);
-    RUN_TEST(Allocated_Cell_Should_Not_Have_Neighbours);
+    RUN_TEST(Allocated_Cell_Should_Not_Have_Neighbours_By_Default);
+    RUN_TEST(Allocated_Cell_Should_Not_Contain_Bomb_By_Default);
+
+    RUN_TEST(Cell_Should_Be_Able_To_Set_Its_Indexes);
+
+    RUN_TEST(Cell_Should_Return_True_On_Bomb_Check_If_It_Contains_A_Bomb);
 
     RUN_TEST(Cell_Should_Add_Neighbour_To_Itself);
     RUN_TEST(Cell_Should_Not_Add_Same_Neighbour_More_Than_Once);

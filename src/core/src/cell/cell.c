@@ -20,6 +20,8 @@ Cell* allocateCell(void)
     if (!cell)
         return NULL;
 
+    cell->i = 0;
+    cell->j = 0;
     cell->isOpened = false;
     cell->isMarked = false;
     cell->value = ZERO;
@@ -38,6 +40,16 @@ Cell* allocateCell(void)
     return cell;
 }
 
+unsigned int cellI(const Cell* cell)
+{
+    return cell->i;
+}
+
+unsigned int cellJ(const Cell* cell)
+{
+    return cell->j;
+}
+
 bool cellIsOpened(const Cell* cell)
 {
     return cell->isOpened;
@@ -53,6 +65,11 @@ bool cellIsMarked(const Cell* cell)
     return cell->isMarked;
 }
 
+bool cellContainsBomb(const Cell* cell)
+{
+    return cell->value == BOMB;
+}
+
 CellValue cellValue(const Cell* cell)
 {
     return cell->value;
@@ -63,7 +80,7 @@ void setCellValue(Cell* cell, CellValue value)
     cell->value = value;
 }
 
-void setCellPosition(Cell* cell, unsigned i, unsigned j)
+void setCellIndexes(Cell* cell, unsigned i, unsigned j)
 {
     cell->i = i;
     cell->j = j;
@@ -96,13 +113,13 @@ void addCellNeighbour(Cell* cell, Cell* neighbour)
 
 void calculateCellValue(Cell* cell)
 {
-    if (cell->value == BOMB)
+    if (cellContainsBomb(cell))
         return;
 
     CellValue value = 0;
 
     for (int i = 0; i < NEIGHBOURS_COUNT; i++)
-        if (cell->neighbours[i] && cell->neighbours[i]->value == BOMB)
+        if (cell->neighbours[i] && cellContainsBomb(cell->neighbours[i]))
             value++;
 
     cell->value = value;

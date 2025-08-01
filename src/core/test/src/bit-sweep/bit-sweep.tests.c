@@ -9,14 +9,14 @@ static unsigned int bombCount = 10;
 
 BitSweep* bitSweep;
 
-void setUpBitSweep()
+void setUpBitSweep(void)
 {
     BitSweepParams params = { seed, width, height, bombCount };
 
     bitSweep = allocateBitSweep(params);
 }
 
-void tearDownBitSweep()
+void tearDownBitSweep(void)
 {
     freeBitSweep(bitSweep);
 }
@@ -56,10 +56,10 @@ void Allocated_Bit_Sweep_Should_Have_Randomized_Bomb_Cells()
 
     for (int i = 0; i < bitSweepWidth(bitSweep); i++)
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
-            if (cellValue(cells[i][j]) == BOMB)
+            if (cellContainsBomb(cells[i][j]))
                 bombCount++;
 
-    TEST_ASSERT_EQUAL_INT(bitSweepBombCount(bitSweep), bombCount);
+    TEST_ASSERT_EQUAL_UINT(bitSweepBombCount(bitSweep), bombCount);
 }
 
 void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
@@ -69,10 +69,15 @@ void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
     Cell*** cells = bitSweepCells(bitSweep);
 
     for (int i = 0; i < bitSweepWidth(bitSweep); i++)
+    {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
-            if (cellValue(cells[i][j]) != ZERO
-                && cellValue(cells[i][j]) != BOMB)
+        {
+            Cell* cell = cells[i][j];
+
+            if (cellValue(cell) != ZERO && !cellContainsBomb(cell))
                 nonZeroValue = true;
+        }
+    }
 
     TEST_ASSERT_TRUE(nonZeroValue);
 }
@@ -94,7 +99,7 @@ void On_Bit_Sweep_Cell_Open_Should_Open_Cell_At_Position()
     TEST_ASSERT_TRUE(cellIsOpened(cells[4][5]));
 }
 
-void testBitSweep()
+void testBitSweep(void)
 {
     RUN_TEST(Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep);
 

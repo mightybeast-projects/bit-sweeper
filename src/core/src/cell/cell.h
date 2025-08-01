@@ -18,17 +18,23 @@ typedef struct Cell Cell;
 
 Cell* allocateCell(void);
 
+unsigned int cellI(const Cell* cell);
+
+unsigned int cellJ(const Cell* cell);
+
 bool cellIsOpened(const Cell* cell);
 
 void openCell(Cell* cell);
 
 bool cellIsMarked(const Cell* cell);
 
+bool cellContainsBomb(const Cell* cell);
+
 CellValue cellValue(const Cell* cell);
 
 void setCellValue(Cell* cell, CellValue value);
 
-void setCellPosition(Cell* cell, unsigned i, unsigned j);
+void setCellIndexes(Cell* cell, unsigned i, unsigned j);
 
 Cell** cellNeighbours(const Cell* cell);
 

@@ -20,7 +20,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[]);
 
 static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
-static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
+static void calculateCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
 BitSweep* allocateBitSweep(BitSweepParams params)
 {
@@ -89,14 +89,16 @@ void printBitSweep(const BitSweep* bitSweep)
 {
     printf("\n");
 
+    Cell*** cells = bitSweep->cells;
+
     for (int i = 0; i < bitSweep->width; i++)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            if (cellValue(bitSweep->cells[j][i]) == ZERO)
+            if (cellValue(cells[j][i]) == ZERO)
                 printf(". ");
-            else if (cellValue(bitSweep->cells[j][i]) != BOMB)
-                printf("%d ", cellValue(bitSweep->cells[j][i]));
+            else if (!cellContainsBomb(cells[j][i]))
+                printf("%d ", cellValue(cells[j][i]));
             else
                 printf("* ");
         }
@@ -121,7 +123,7 @@ void freeBitSweep(BitSweep* bitSweep)
     free(bitSweep);
 }
 
-void initializeCells(BitSweep* bitSweep)
+static void initializeCells(BitSweep* bitSweep)
 {
     int* bombIndexes = malloc(sizeof(int) * bitSweep->bombCount);
 
@@ -130,12 +132,12 @@ void initializeCells(BitSweep* bitSweep)
 
     initializeBombIndexes(bitSweep, bombIndexes);
     placeBombs(bitSweep, bombIndexes);
-    assignCellValues(bitSweep, bombIndexes);
+    calculateCellValues(bitSweep, bombIndexes);
 
     free(bombIndexes);
 }
 
-void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
+static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
@@ -162,7 +164,7 @@ void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
     }
 }
 
-void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
+static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {
@@ -170,7 +172,7 @@ void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
         {
             Cell* cell = bitSweep->cells[i][j];
 
-            setCellPosition(cell, i, j);
+            setCellIndexes(cell, i, j);
 
             const int index = bitSweep->height * i + j;
 
@@ -181,7 +183,7 @@ void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
     }
 }
 
-void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
+static void calculateCellValues(BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {
