@@ -17,61 +17,52 @@ void tearDownBitSweep()
 void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
 {
     TEST_ASSERT_NOT_NULL(bitSweep);
-
-    for (int i = 0; i < bitSweep->width; i++)
-    {
-        for (int j = 0; j < bitSweep->height; j++)
-        {
-            if (cellValue(bitSweep->cells[i][j]) != BOMB)
-                printf("%d ", cellValue(bitSweep->cells[i][j]));
-            else
-                printf("* ");
-        }
-
-        printf("\n");
-    }
 }
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Width()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweep->width);
+    TEST_ASSERT_EQUAL_INT(10, bitSweepWidth(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Height()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweep->height);
+    TEST_ASSERT_EQUAL_INT(10, bitSweepHeight(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Bomb_Count()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweep->bombCount);
+    TEST_ASSERT_EQUAL_INT(10, bitSweepBombCount(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Cells()
 {
-    TEST_ASSERT_NOT_NULL(bitSweep->cells);
+    TEST_ASSERT_NOT_NULL(bitSweepCells(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Randomized_Bomb_Cells()
 {
     int bombCount = 0;
 
-    for (int i = 0; i < bitSweep->width; i++)
-        for (int j = 0; j < bitSweep->height; j++)
-            if (cellValue(bitSweep->cells[i][j]) == BOMB)
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
+        for (int j = 0; j < bitSweepHeight(bitSweep); j++)
+            if (cellValue(cells[i][j]) == BOMB)
                 bombCount++;
 
-    TEST_ASSERT_EQUAL_INT(bitSweep->bombCount, bombCount);
+    TEST_ASSERT_EQUAL_INT(bitSweepBombCount(bitSweep), bombCount);
 }
 
 void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
 {
     bool nonZeroValue = false;
 
-    for (int i = 0; i < bitSweep->width; i++)
-        for (int j = 0; j < bitSweep->height; j++)
-            if (cellValue(bitSweep->cells[i][j]) != ZERO
-                && cellValue(bitSweep->cells[i][j]) != BOMB)
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
+        for (int j = 0; j < bitSweepHeight(bitSweep); j++)
+            if (cellValue(cells[i][j]) != ZERO
+                && cellValue(cells[i][j]) != BOMB)
                 nonZeroValue = true;
 
     TEST_ASSERT_TRUE(nonZeroValue);

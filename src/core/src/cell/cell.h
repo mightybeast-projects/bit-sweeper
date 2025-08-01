@@ -28,7 +28,7 @@ void setCellValue(Cell* cell, CellValue value);
 
 void setCellPosition(Cell* cell, int x, int y);
 
-Cell*** cellNeighbours(const Cell* cell);
+Cell** cellNeighbours(const Cell* cell);
 
 void addCellNeighbour(Cell* cell, Cell* neighbour);
 

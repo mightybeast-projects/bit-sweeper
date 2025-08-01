@@ -64,7 +64,7 @@ void setCellPosition(Cell* cell, int x, int y)
     cell->y = y;
 }
 
-Cell*** cellNeighbours(const Cell* cell)
+Cell** cellNeighbours(const Cell* cell)
 {
     return cell->neighbours;
 }

@@ -11,9 +11,17 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+struct BitSweep
+{
+    int width;
+    int height;
+    int bombCount;
+    Cell*** cells;
+};
+
 static void initializeCells(BitSweep* bitSweep);
 
-static void initializeBombIndexes(const BitSweep* bitSweep, int arr[]);
+void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[]);
 
 static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
@@ -21,7 +29,7 @@ static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
 BitSweep* allocateBitSweep()
 {
-    BitSweep* bitSweep = malloc(sizeof(struct bitSweep));
+    BitSweep* bitSweep = malloc(sizeof(struct BitSweep));
 
     if (!bitSweep)
         return NULL;
@@ -49,6 +57,44 @@ BitSweep* allocateBitSweep()
     initializeCells(bitSweep);
 
     return bitSweep;
+}
+
+int bitSweepWidth(const BitSweep* bitSweep)
+{
+    return bitSweep->width;
+}
+
+int bitSweepHeight(const BitSweep* bitSweep)
+{
+    return bitSweep->height;
+}
+
+int bitSweepBombCount(const BitSweep* bitSweep)
+{
+    return bitSweep->bombCount;
+}
+
+Cell*** bitSweepCells(const BitSweep* bitSweep)
+{
+    return bitSweep->cells;
+}
+
+void printBitSweep(const BitSweep* bitSweep)
+{
+    printf("\n");
+
+    for (int i = 0; i < bitSweep->width; i++)
+    {
+        for (int j = 0; j < bitSweep->height; j++)
+        {
+            if (cellValue(bitSweep->cells[i][j]) != BOMB)
+                printf("%d ", cellValue(bitSweep->cells[i][j]));
+            else
+                printf("* ");
+        }
+
+        printf("\n");
+    }
 }
 
 void freeBitSweep(BitSweep* bitSweep)
@@ -81,7 +127,7 @@ static void initializeCells(BitSweep* bitSweep)
     free(bombIndexes);
 }
 
-static void initializeBombIndexes(const BitSweep* bitSweep, int arr[])
+void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
@@ -91,7 +137,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int arr[])
 
         for (int j = 0; j < bitSweep->bombCount; j++)
         {
-            if (arr[j] == rIndex)
+            if (bombIndexes[j] == rIndex)
             {
                 duplicated = true;
                 break;
@@ -104,11 +150,11 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int arr[])
             continue;
         }
 
-        arr[i] = rIndex;
+        bombIndexes[i] = rIndex;
     }
 }
 
-void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
+static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {

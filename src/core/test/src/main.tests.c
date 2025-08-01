@@ -1,3 +1,4 @@
+#include "bit-sweep.h"
 #include "bit-sweep.tests.h"
 #include "cell.tests.h"
 #include "stdbool.h"
@@ -15,12 +16,23 @@ void tearDown()
     tearDownBitSweep();
 }
 
+void printTestBitSweep()
+{
+    BitSweep* game = allocateBitSweep();
+
+    printBitSweep(game);
+
+    freeBitSweep(game);
+}
+
 int main()
 {
     UNITY_BEGIN();
 
     testCell();
     testBitSweep();
+
+    printTestBitSweep();
 
     return UNITY_END();
 }

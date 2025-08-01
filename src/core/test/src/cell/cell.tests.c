@@ -36,7 +36,7 @@ void Allocated_Cell_Should_Have_Zero_Value_By_Default()
 
 void Allocated_Cell_Should_Not_Have_Neighbours()
 {
-    Cell*** neighbours = cellNeighbours(cell);
+    Cell** neighbours = cellNeighbours(cell);
 
     TEST_ASSERT_NOT_NULL(neighbours);
 
@@ -62,7 +62,7 @@ void Cell_Should_Not_Add_Same_Neighbour_More_Than_Once()
     addCellNeighbour(cell, neighbour);
     addCellNeighbour(cell, neighbour);
 
-    Cell*** neighbours = cellNeighbours(cell);
+    Cell** neighbours = cellNeighbours(cell);
 
     TEST_ASSERT_NOT_NULL(neighbours[0]);
     TEST_ASSERT_NULL(neighbours[1]);
