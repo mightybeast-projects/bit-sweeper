@@ -6,7 +6,7 @@ BitSweep* bitSweep;
 
 void setUpBitSweep()
 {
-    bitSweep = allocateBitSweep(10, 10, 10);
+    bitSweep = allocateBitSweep((BitSweepParams) { 1, 10, 10, 10 });
 }
 
 void tearDownBitSweep()
@@ -17,21 +17,23 @@ void tearDownBitSweep()
 void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
 {
     TEST_ASSERT_NOT_NULL(bitSweep);
+
+    printBitSweep(bitSweep);
 }
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Width()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweepWidth(bitSweep));
+    TEST_ASSERT_EQUAL_UINT(10, bitSweepWidth(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Height()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweepHeight(bitSweep));
+    TEST_ASSERT_EQUAL_UINT(10, bitSweepHeight(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Bomb_Count()
 {
-    TEST_ASSERT_EQUAL_INT(10, bitSweepBombCount(bitSweep));
+    TEST_ASSERT_EQUAL_UINT(10, bitSweepBombCount(bitSweep));
 };
 
 void Allocated_Bit_Sweep_Should_Have_Initialized_Cells()

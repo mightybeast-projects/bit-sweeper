@@ -2,13 +2,21 @@
 
 typedef struct BitSweep BitSweep;
 
-BitSweep* allocateBitSweep(int rows, int cols, int bombCount);
+typedef struct BitSweepParams
+{
+    unsigned int seed;
+    unsigned int rows;
+    unsigned int cols;
+    unsigned int bombCount;
+} BitSweepParams;
 
-int bitSweepWidth(const BitSweep* bitSweep);
+BitSweep* allocateBitSweep(BitSweepParams params);
 
-int bitSweepHeight(const BitSweep* bitSweep);
+unsigned int bitSweepWidth(const BitSweep* bitSweep);
 
-int bitSweepBombCount(const BitSweep* bitSweep);
+unsigned int bitSweepHeight(const BitSweep* bitSweep);
+
+unsigned int bitSweepBombCount(const BitSweep* bitSweep);
 
 Cell*** bitSweepCells(const BitSweep* bitSweep);
 

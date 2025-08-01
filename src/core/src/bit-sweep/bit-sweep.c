@@ -2,16 +2,15 @@
 #include "stdbool.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include "time.h"
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
 struct BitSweep
 {
-    int width;
-    int height;
-    int bombCount;
+    unsigned int width;
+    unsigned int height;
+    unsigned int bombCount;
     Cell*** cells;
 };
 
@@ -23,16 +22,16 @@ static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
 static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
-BitSweep* allocateBitSweep(int rows, int cols, int bombCount)
+BitSweep* allocateBitSweep(BitSweepParams params)
 {
     BitSweep* bitSweep = malloc(sizeof(struct BitSweep));
 
     if (!bitSweep)
         return NULL;
 
-    bitSweep->width = cols;
-    bitSweep->height = rows;
-    bitSweep->bombCount = bombCount;
+    bitSweep->width = params.cols;
+    bitSweep->height = params.rows;
+    bitSweep->bombCount = params.bombCount;
 
     bitSweep->cells = malloc(sizeof(Cell**) * bitSweep->width);
 
@@ -50,22 +49,24 @@ BitSweep* allocateBitSweep(int rows, int cols, int bombCount)
             bitSweep->cells[i][j] = allocateCell();
     }
 
+    srand(params.seed);
+
     initializeCells(bitSweep);
 
     return bitSweep;
 }
 
-int bitSweepWidth(const BitSweep* bitSweep)
+unsigned int bitSweepWidth(const BitSweep* bitSweep)
 {
     return bitSweep->width;
 }
 
-int bitSweepHeight(const BitSweep* bitSweep)
+unsigned int bitSweepHeight(const BitSweep* bitSweep)
 {
     return bitSweep->height;
 }
 
-int bitSweepBombCount(const BitSweep* bitSweep)
+unsigned int bitSweepBombCount(const BitSweep* bitSweep)
 {
     return bitSweep->bombCount;
 }
@@ -93,6 +94,8 @@ void printBitSweep(const BitSweep* bitSweep)
 
         printf("\n");
     }
+
+    printf("\n");
 }
 
 void freeBitSweep(BitSweep* bitSweep)
@@ -111,8 +114,6 @@ void freeBitSweep(BitSweep* bitSweep)
 
 void initializeCells(BitSweep* bitSweep)
 {
-    srand(time(NULL));
-
     int* bombIndexes = malloc(sizeof(int) * bitSweep->bombCount);
 
     if (!bombIndexes)
@@ -129,7 +130,7 @@ void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
-        const int rIndex = rand() % (bitSweep->width * bitSweep->height);
+        const unsigned rIndex = rand() % (bitSweep->width * bitSweep->height);
 
         bool duplicated = false;
 

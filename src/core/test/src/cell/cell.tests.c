@@ -31,7 +31,7 @@ void Allocated_Cell_Should_Not_Be_Marked_By_Default()
 
 void Allocated_Cell_Should_Have_Zero_Value_By_Default()
 {
-    TEST_ASSERT_EQUAL_INT(ZERO, cellValue(cell));
+    TEST_ASSERT_EQUAL_UINT(ZERO, cellValue(cell));
 }
 
 void Allocated_Cell_Should_Not_Have_Neighbours()
@@ -112,7 +112,7 @@ void Cell_Should_Not_Sync_Its_Value_If_It_Is_Has_Bomb()
 
     calculateCellValue(cell);
 
-    TEST_ASSERT_EQUAL_INT(BOMB, cellValue(cell));
+    TEST_ASSERT_EQUAL_UINT(BOMB, cellValue(cell));
 }
 
 void Cell_Open_Should_Changed_Opened_State()

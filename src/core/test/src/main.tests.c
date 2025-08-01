@@ -16,23 +16,12 @@ void tearDown()
     tearDownBitSweep();
 }
 
-void printTestBitSweep()
-{
-    BitSweep* game = allocateBitSweep(40, 20, 70);
-
-    printBitSweep(game);
-
-    freeBitSweep(game);
-}
-
 int main()
 {
     UNITY_BEGIN();
 
     testCell();
     testBitSweep();
-
-    printTestBitSweep();
 
     return UNITY_END();
 }
