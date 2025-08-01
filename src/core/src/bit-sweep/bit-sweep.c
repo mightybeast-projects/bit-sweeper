@@ -4,10 +4,6 @@
 #include "stdlib.h"
 #include "time.h"
 
-#define WIDTH 10
-#define HEIGHT 10
-#define BOMB_COUNT 10
-
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
@@ -21,22 +17,22 @@ struct BitSweep
 
 static void initializeCells(BitSweep* bitSweep);
 
-void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[]);
+static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[]);
 
 static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
 static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
-BitSweep* allocateBitSweep()
+BitSweep* allocateBitSweep(int width, int height, int bombCount)
 {
     BitSweep* bitSweep = malloc(sizeof(struct BitSweep));
 
     if (!bitSweep)
         return NULL;
 
-    bitSweep->width = WIDTH;
-    bitSweep->height = HEIGHT;
-    bitSweep->bombCount = BOMB_COUNT;
+    bitSweep->width = width;
+    bitSweep->height = height;
+    bitSweep->bombCount = bombCount;
 
     bitSweep->cells = malloc(sizeof(Cell**) * bitSweep->width);
 
@@ -87,7 +83,9 @@ void printBitSweep(const BitSweep* bitSweep)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            if (cellValue(bitSweep->cells[i][j]) != BOMB)
+            if (cellValue(bitSweep->cells[i][j]) == ZERO)
+                printf(". ");
+            else if (cellValue(bitSweep->cells[i][j]) != BOMB)
                 printf("%d ", cellValue(bitSweep->cells[i][j]));
             else
                 printf("* ");
@@ -99,9 +97,9 @@ void printBitSweep(const BitSweep* bitSweep)
 
 void freeBitSweep(BitSweep* bitSweep)
 {
-    for (int i = 0; i < WIDTH; i++)
+    for (int i = 0; i < bitSweep->width; i++)
     {
-        for (int j = 0; j < HEIGHT; j++)
+        for (int j = 0; j < bitSweep->height; j++)
             freeCell(bitSweep->cells[i][j]);
 
         free(bitSweep->cells[i]);
@@ -111,7 +109,7 @@ void freeBitSweep(BitSweep* bitSweep)
     free(bitSweep);
 }
 
-static void initializeCells(BitSweep* bitSweep)
+void initializeCells(BitSweep* bitSweep)
 {
     srand(time(NULL));
 
@@ -154,7 +152,7 @@ void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
     }
 }
 
-static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
+void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {
@@ -173,7 +171,7 @@ static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
     }
 }
 
-static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
+void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {

@@ -6,7 +6,7 @@ BitSweep* bitSweep;
 
 void setUpBitSweep()
 {
-    bitSweep = allocateBitSweep();
+    bitSweep = allocateBitSweep(10, 10, 10);
 }
 
 void tearDownBitSweep()
