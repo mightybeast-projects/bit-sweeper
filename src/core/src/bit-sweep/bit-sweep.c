@@ -76,6 +76,15 @@ Cell*** bitSweepCells(const BitSweep* bitSweep)
     return bitSweep->cells;
 }
 
+bool openCellAt(BitSweep* bitSweep, const int x, const int y)
+{
+    Cell* cell = bitSweep->cells[x][y];
+
+    openCell(cell);
+
+    return cellValue(cell) != BOMB;
+}
+
 void printBitSweep(const BitSweep* bitSweep)
 {
     printf("\n");

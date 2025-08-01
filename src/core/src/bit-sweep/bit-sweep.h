@@ -20,6 +20,8 @@ unsigned int bitSweepBombCount(const BitSweep* bitSweep);
 
 Cell*** bitSweepCells(const BitSweep* bitSweep);
 
+bool openCellAt(BitSweep* bitSweep, const int x, const int y);
+
 void printBitSweep(const BitSweep* bitSweep);
 
 void freeBitSweep(BitSweep* bitSweep);

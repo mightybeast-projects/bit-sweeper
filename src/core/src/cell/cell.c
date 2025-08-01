@@ -13,7 +13,7 @@ struct Cell
     Cell** neighbours;
 };
 
-Cell* allocateCell()
+Cell* allocateCell(void)
 {
     Cell* cell = malloc(sizeof(struct Cell));
 

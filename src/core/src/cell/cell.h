@@ -16,7 +16,7 @@ typedef enum
 
 typedef struct Cell Cell;
 
-Cell* allocateCell();
+Cell* allocateCell(void);
 
 bool cellIsOpened(const Cell* cell);
 
