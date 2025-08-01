@@ -1,6 +1,6 @@
 #include "stdbool.h"
 
-enum CellValue
+typedef enum
 {
     ZERO,
     ONE,
@@ -12,24 +12,26 @@ enum CellValue
     SEVEN,
     EIGHT,
     BOMB
-};
+} CellValue;
 
-typedef struct cell Cell;
-
-struct cell
-{
-    int x;
-    int y;
-    bool isOpened;
-    bool isMarked;
-    enum CellValue value;
-    Cell** neighbours;
-};
+typedef struct Cell Cell;
 
 Cell* allocateCell();
 
-void addNeighbour(Cell* cell, Cell* neighbour);
+bool cellIsOpened(const Cell* cell);
 
-void syncValue(Cell* cell);
+bool cellIsMarked(const Cell* cell);
+
+CellValue cellValue(const Cell* cell);
+
+void setCellValue(Cell* cell, CellValue value);
+
+void setCellPosition(Cell* cell, int x, int y);
+
+Cell*** cellNeighbours(const Cell* cell);
+
+void addCellNeighbour(Cell* cell, Cell* neighbour);
+
+void calculateCellValue(Cell* cell);
 
 void freeCell(Cell* cell);

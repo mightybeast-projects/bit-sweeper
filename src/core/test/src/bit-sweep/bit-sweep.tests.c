@@ -22,8 +22,8 @@ void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            if (bitSweep->cells[i][j]->value != BOMB)
-                printf("%d ", bitSweep->cells[i][j]->value);
+            if (cellValue(bitSweep->cells[i][j]) != BOMB)
+                printf("%d ", cellValue(bitSweep->cells[i][j]));
             else
                 printf("* ");
         }
@@ -58,7 +58,7 @@ void Allocated_Bit_Sweep_Should_Have_Randomized_Bomb_Cells()
 
     for (int i = 0; i < bitSweep->width; i++)
         for (int j = 0; j < bitSweep->height; j++)
-            if (bitSweep->cells[i][j]->value == BOMB)
+            if (cellValue(bitSweep->cells[i][j]) == BOMB)
                 bombCount++;
 
     TEST_ASSERT_EQUAL_INT(bitSweep->bombCount, bombCount);
@@ -70,8 +70,8 @@ void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
 
     for (int i = 0; i < bitSweep->width; i++)
         for (int j = 0; j < bitSweep->height; j++)
-            if (bitSweep->cells[i][j]->value != ZERO
-                && bitSweep->cells[i][j]->value != BOMB)
+            if (cellValue(bitSweep->cells[i][j]) != ZERO
+                && cellValue(bitSweep->cells[i][j]) != BOMB)
                 nonZeroValue = true;
 
     TEST_ASSERT_TRUE(nonZeroValue);

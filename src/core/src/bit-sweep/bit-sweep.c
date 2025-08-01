@@ -15,6 +15,8 @@ static void initializeCells(BitSweep* bitSweep);
 
 static void initializeBombIndexes(const BitSweep* bitSweep, int arr[]);
 
+static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
+
 static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
 BitSweep* allocateBitSweep()
@@ -73,6 +75,7 @@ static void initializeCells(BitSweep* bitSweep)
         return;
 
     initializeBombIndexes(bitSweep, bombIndexes);
+    placeBombs(bitSweep, bombIndexes);
     assignCellValues(bitSweep, bombIndexes);
 
     free(bombIndexes);
@@ -82,7 +85,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int arr[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
-        int rIndex = rand() % (bitSweep->width * bitSweep->height);
+        const int rIndex = rand() % (bitSweep->width * bitSweep->height);
 
         bool duplicated = false;
 
@@ -105,7 +108,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int arr[])
     }
 }
 
-static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
+void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
 {
     for (int i = 0; i < bitSweep->width; i++)
     {
@@ -113,17 +116,19 @@ static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
         {
             Cell* cell = bitSweep->cells[i][j];
 
-            cell->x = i;
-            cell->y = j;
+            setCellPosition(cell, i, j);
 
             const int index = bitSweep->height * i + j;
 
             for (int k = 0; k < bitSweep->bombCount; k++)
-                if (bombIndexes[k] == index)
-                    cell->value = BOMB;
+                if (bombsIndexes[k] == index)
+                    setCellValue(cell, BOMB);
         }
     }
+}
 
+static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
+{
     for (int i = 0; i < bitSweep->width; i++)
     {
         for (int j = 0; j < bitSweep->height; j++)
@@ -143,11 +148,11 @@ static void assignCellValues(BitSweep* bitSweep, int bombIndexes[])
                     if (k == i && l == j)
                         continue;
 
-                    addNeighbour(cell, bitSweep->cells[k][l]);
+                    addCellNeighbour(cell, bitSweep->cells[k][l]);
                 }
             }
 
-            syncValue(cell);
+            calculateCellValue(cell);
         }
     }
 }

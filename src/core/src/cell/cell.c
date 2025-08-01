@@ -3,9 +3,19 @@
 
 #define NEIGHBOURS_COUNT 8
 
+struct Cell
+{
+    int x;
+    int y;
+    bool isOpened;
+    bool isMarked;
+    CellValue value;
+    Cell** neighbours;
+};
+
 Cell* allocateCell()
 {
-    Cell* cell = malloc(sizeof(struct cell));
+    Cell* cell = malloc(sizeof(struct Cell));
 
     if (!cell)
         return NULL;
@@ -28,7 +38,38 @@ Cell* allocateCell()
     return cell;
 }
 
-void addNeighbour(Cell* cell, Cell* neighbour)
+bool cellIsOpened(const Cell* cell)
+{
+    return cell->isOpened;
+}
+
+bool cellIsMarked(const Cell* cell)
+{
+    return cell->isMarked;
+}
+
+CellValue cellValue(const Cell* cell)
+{
+    return cell->value;
+}
+
+void setCellValue(Cell* cell, CellValue value)
+{
+    cell->value = value;
+}
+
+void setCellPosition(Cell* cell, int x, int y)
+{
+    cell->x = x;
+    cell->y = y;
+}
+
+Cell*** cellNeighbours(const Cell* cell)
+{
+    return cell->neighbours;
+}
+
+void addCellNeighbour(Cell* cell, Cell* neighbour)
 {
     Cell** ptr = cell->neighbours;
     int nCount = 0;
@@ -48,12 +89,12 @@ void addNeighbour(Cell* cell, Cell* neighbour)
     *ptr = neighbour;
 }
 
-void syncValue(Cell* cell)
+void calculateCellValue(Cell* cell)
 {
     if (cell->value == BOMB)
         return;
 
-    enum CellValue value = 0;
+    CellValue value = 0;
 
     for (int i = 0; i < NEIGHBOURS_COUNT; i++)
         if (cell->neighbours[i] && cell->neighbours[i]->value == BOMB)
