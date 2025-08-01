@@ -84,7 +84,7 @@ void Bit_Sweep_Should_Return_True_After_Opening_Cell_At_Index_If_Cell_Value_Is_N
 
 void Bit_Sweep_Should_Return_False_After_Opening_Cell_At_Index_If_Cell_Value_Is_A_Bomb()
 {
-    TEST_ASSERT_FALSE(openCellAt(bitSweep, 1, 5));
+    TEST_ASSERT_FALSE(openCellAt(bitSweep, 2, 1));
 }
 
 void On_Bit_Sweep_Cell_Open_Should_Open_Cell_At_Position()

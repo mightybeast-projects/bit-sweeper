@@ -5,8 +5,8 @@
 
 struct Cell
 {
-    unsigned int x;
-    unsigned int y;
+    unsigned int i;
+    unsigned int j;
     bool isOpened;
     bool isMarked;
     CellValue value;
@@ -63,10 +63,10 @@ void setCellValue(Cell* cell, CellValue value)
     cell->value = value;
 }
 
-void setCellPosition(Cell* cell, unsigned x, unsigned y)
+void setCellPosition(Cell* cell, unsigned i, unsigned j)
 {
-    cell->x = x;
-    cell->y = y;
+    cell->i = i;
+    cell->j = j;
 }
 
 Cell** cellNeighbours(const Cell* cell)
