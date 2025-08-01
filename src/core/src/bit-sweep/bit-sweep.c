@@ -23,15 +23,15 @@ static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
 static void assignCellValues(BitSweep* bitSweep, int bombIndexes[]);
 
-BitSweep* allocateBitSweep(int width, int height, int bombCount)
+BitSweep* allocateBitSweep(int rows, int cols, int bombCount)
 {
     BitSweep* bitSweep = malloc(sizeof(struct BitSweep));
 
     if (!bitSweep)
         return NULL;
 
-    bitSweep->width = width;
-    bitSweep->height = height;
+    bitSweep->width = cols;
+    bitSweep->height = rows;
     bitSweep->bombCount = bombCount;
 
     bitSweep->cells = malloc(sizeof(Cell**) * bitSweep->width);

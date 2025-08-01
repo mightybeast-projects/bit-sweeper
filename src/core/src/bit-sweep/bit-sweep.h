@@ -2,7 +2,7 @@
 
 typedef struct BitSweep BitSweep;
 
-BitSweep* allocateBitSweep(int width, int height, int bombCount);
+BitSweep* allocateBitSweep(int rows, int cols, int bombCount);
 
 int bitSweepWidth(const BitSweep* bitSweep);
 

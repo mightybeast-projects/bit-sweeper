@@ -18,7 +18,7 @@ void tearDown()
 
 void printTestBitSweep()
 {
-    BitSweep* game = allocateBitSweep(20, 40, 70);
+    BitSweep* game = allocateBitSweep(40, 20, 70);
 
     printBitSweep(game);
 
