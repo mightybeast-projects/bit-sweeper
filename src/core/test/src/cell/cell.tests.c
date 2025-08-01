@@ -115,6 +115,13 @@ void Cell_Should_Not_Sync_Its_Value_If_It_Is_Has_Bomb()
     TEST_ASSERT_EQUAL_INT(BOMB, cellValue(cell));
 }
 
+void Cell_Open_Should_Changed_Opened_State()
+{
+    openCell(cell);
+
+    TEST_ASSERT_TRUE(cellIsOpened(cell));
+}
+
 void testCell()
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
@@ -129,4 +136,6 @@ void testCell()
     RUN_TEST(Cell_Should_Not_Add_Neighbour_If_It_Has_No_Space_For_One);
 
     RUN_TEST(Cell_Should_Calculate_Its_Value_By_Checking_Neighbours_Bombs);
+
+    RUN_TEST(Cell_Open_Should_Changed_Opened_State);
 }

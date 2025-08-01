@@ -20,6 +20,8 @@ Cell* allocateCell();
 
 bool cellIsOpened(const Cell* cell);
 
+void openCell(Cell* cell);
+
 bool cellIsMarked(const Cell* cell);
 
 CellValue cellValue(const Cell* cell);
