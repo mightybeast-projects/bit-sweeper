@@ -46,7 +46,13 @@ BitSweep* allocateBitSweep(BitSweepParams params)
         bitSweep->cells[i] = malloc(sizeof(Cell*) * bitSweep->height);
 
         for (int j = 0; j < bitSweep->height; j++)
-            bitSweep->cells[i][j] = allocateCell();
+        {
+            Cell* cell = allocateCell();
+
+            setCellIndexes(cell, i, j);
+
+            bitSweep->cells[i][j] = cell;
+        }
     }
 
     srand(params.seed);
@@ -170,15 +176,11 @@ static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            Cell* cell = bitSweep->cells[i][j];
-
-            setCellIndexes(cell, i, j);
-
             const int index = bitSweep->height * i + j;
 
             for (int k = 0; k < bitSweep->bombCount; k++)
                 if (bombsIndexes[k] == index)
-                    setCellValue(cell, BOMB);
+                    setCellValue(bitSweep->cells[i][j], BOMB);
         }
     }
 }

@@ -48,6 +48,22 @@ void Allocated_Bit_Sweep_Should_Have_Initialized_Cells()
     TEST_ASSERT_NOT_NULL(bitSweepCells(bitSweep));
 };
 
+void Allocated_Bit_Sweep_Cells_Should_Have_Initialized_Indexes()
+{
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
+    {
+        for (int j = 0; j < bitSweepHeight(bitSweep); j++)
+        {
+            Cell* cell = cells[i][j];
+
+            TEST_ASSERT_EQUAL_UINT(i, cellI(cell));
+            TEST_ASSERT_EQUAL_UINT(j, cellJ(cell));
+        }
+    }
+}
+
 void Allocated_Bit_Sweep_Should_Have_Randomized_Bomb_Cells()
 {
     int bombCount = 0;
@@ -105,6 +121,7 @@ void testBitSweep(void)
 
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Width);
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Height);
+    RUN_TEST(Allocated_Bit_Sweep_Cells_Should_Have_Initialized_Indexes);
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Bomb_Count);
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Cells);
 
