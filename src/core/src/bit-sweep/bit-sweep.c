@@ -24,6 +24,8 @@ static void assignCellValues(BitSweep* bitSweep);
 
 static void assignCellValue(BitSweep* bitSweep, const int i, const int j);
 
+static void openCellNeighbours(BitSweep* bitSweep, const Cell* cell);
+
 static void printCellValues(const BitSweep* bitSweep);
 
 static void printCells(const BitSweep* bitSweep);
@@ -114,20 +116,7 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
     if (cellValue(cell) != ZERO)
         return cell;
 
-    Cell** neighbours = cellNeighbours(cell);
-
-    for (; *neighbours; neighbours++)
-    {
-        Cell* neighbour = *neighbours;
-        int i = cellI(neighbour);
-        int j = cellJ(neighbour);
-
-        const bool canOpenCell = !cellIsOpened(neighbour)
-            && !cellContainsBomb(neighbour) && !cellIsMarked(neighbour);
-
-        if (canOpenCell)
-            openCellAt(bitSweep, i, j);
-    }
+    openCellNeighbours(bitSweep, cell);
 
     return cell;
 }
@@ -240,6 +229,24 @@ static void assignCellValue(BitSweep* bitSweep, const int i, const int j)
     }
 
     calculateCellValue(cell);
+}
+
+static void openCellNeighbours(BitSweep* bitSweep, const Cell* cell)
+{
+    Cell** neighbours = cellNeighbours(cell);
+
+    for (; *neighbours; neighbours++)
+    {
+        Cell* neighbour = *neighbours;
+        int i = cellI(neighbour);
+        int j = cellJ(neighbour);
+
+        const bool canOpenCell = !cellIsOpened(neighbour)
+            && !cellContainsBomb(neighbour) && !cellIsMarked(neighbour);
+
+        if (canOpenCell)
+            openCellAt(bitSweep, i, j);
+    }
 }
 
 static void printCellValues(const BitSweep* bitSweep)
