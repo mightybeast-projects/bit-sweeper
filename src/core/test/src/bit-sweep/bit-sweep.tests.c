@@ -115,7 +115,15 @@ void Bit_Sweep_Should_Open_Cell_At_Position()
 
 void Bit_Sweep_Should_Not_Open_Marked_Cell()
 {
-    Cell* cell = bitSweepCells(bitSweep)[0][0];
+
+    Cell* cell = bitSweepCells(bitSweep)[5][5];
+
+    toggleCellMark(cell);
+    openCellAt(bitSweep, 5, 5);
+
+    TEST_ASSERT_FALSE(cellIsOpened(cell));
+
+    printBitSweep(bitSweep);
 }
 
 void Bit_Sweep_Should_Open_Just_Cell_If_It_Has_Bomb()
@@ -182,6 +190,7 @@ void testBitSweep(void)
 
     RUN_TEST(Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One);
     RUN_TEST(Bit_Sweep_Should_Open_Cell_At_Position);
+    RUN_TEST(Bit_Sweep_Should_Not_Open_Marked_Cell);
     RUN_TEST(Bit_Sweep_Should_Open_Just_Cell_If_It_Has_Bomb);
     RUN_TEST(Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value);
     RUN_TEST(

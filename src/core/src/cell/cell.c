@@ -26,7 +26,7 @@ Cell* allocateCell(void)
     cell->isMarked = false;
     cell->value = ZERO;
 
-    cell->neighbours = malloc(sizeof(Cell*) * NEIGHBOURS_COUNT);
+    cell->neighbours = malloc(sizeof(Cell*) * (NEIGHBOURS_COUNT + 1));
 
     if (!cell->neighbours)
     {
@@ -34,7 +34,7 @@ Cell* allocateCell(void)
         return NULL;
     }
 
-    for (int i = 0; i < NEIGHBOURS_COUNT; i++)
+    for (int i = 0; i < NEIGHBOURS_COUNT + 1; i++)
         cell->neighbours[i] = NULL;
 
     return cell;
@@ -63,6 +63,11 @@ void openCell(Cell* cell)
 bool cellIsMarked(const Cell* cell)
 {
     return cell->isMarked;
+}
+
+void toggleCellMark(Cell* cell)
+{
+    cell->isMarked = !cell->isMarked;
 }
 
 bool cellContainsBomb(const Cell* cell)

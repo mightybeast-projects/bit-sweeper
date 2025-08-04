@@ -92,6 +92,9 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 {
     Cell* cell = bitSweep->cells[i][j];
 
+    if (cellIsMarked(cell))
+        return cell;
+
     openCell(cell);
 
     if (cellValue(cell) != ZERO)
@@ -105,7 +108,8 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
         int i = cellI(neighbour);
         int j = cellJ(neighbour);
 
-        if (!cellIsOpened(neighbour) && !cellContainsBomb(neighbour))
+        if (!cellIsOpened(neighbour) && !cellContainsBomb(neighbour)
+            && !cellIsMarked(neighbour))
             openCellAt(bitSweep, i, j);
     }
 
@@ -250,12 +254,16 @@ static void printCells(const BitSweep* bitSweep)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            if (cellIsOpened(cells[j][i]) && cellContainsBomb(cells[j][i]))
+            Cell* cell = cells[j][i];
+
+            if (cellIsOpened(cell) && cellContainsBomb(cell))
                 printf("* ");
-            else if (!cellIsOpened(cells[j][i]))
+            else if (!cellIsOpened(cell) && !cellIsMarked(cell))
                 printf(". ");
+            else if (cellIsMarked(cell))
+                printf("! ");
             else
-                printf("%d ", cellValue(cells[j][i]));
+                printf("%d ", cellValue(cell));
         }
 
         printf("\n");

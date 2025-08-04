@@ -28,6 +28,8 @@ void openCell(Cell* cell);
 
 bool cellIsMarked(const Cell* cell);
 
+void toggleCellMark(Cell* cell);
+
 bool cellContainsBomb(const Cell* cell);
 
 CellValue cellValue(const Cell* cell);
