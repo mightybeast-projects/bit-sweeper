@@ -1,4 +1,5 @@
 #include "cell.h"
+#include "stdbool.h"
 
 typedef struct BitSweep BitSweep;
 
@@ -17,6 +18,8 @@ unsigned int bitSweepWidth(const BitSweep* bitSweep);
 unsigned int bitSweepHeight(const BitSweep* bitSweep);
 
 unsigned int bitSweepBombCount(const BitSweep* bitSweep);
+
+bool bitSweepIsFinished(const BitSweep* bitSweep);
 
 Cell*** bitSweepCells(const BitSweep* bitSweep);
 

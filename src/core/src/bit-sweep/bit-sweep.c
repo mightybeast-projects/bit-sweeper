@@ -1,5 +1,4 @@
 #include "bit-sweep.h"
-#include "stdbool.h"
 #include "stdio.h"
 #include "stdlib.h"
 
@@ -11,6 +10,7 @@ struct BitSweep
     unsigned int width;
     unsigned int height;
     unsigned int bombCount;
+    bool isFinished;
     Cell*** cells;
 };
 
@@ -83,6 +83,11 @@ unsigned int bitSweepBombCount(const BitSweep* bitSweep)
     return bitSweep->bombCount;
 }
 
+bool bitSweepIsFinished(const BitSweep* bitSweep)
+{
+    return bitSweep->isFinished;
+}
+
 Cell*** bitSweepCells(const BitSweep* bitSweep)
 {
     return bitSweep->cells;
@@ -90,12 +95,21 @@ Cell*** bitSweepCells(const BitSweep* bitSweep)
 
 Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 {
+    if (bitSweep->isFinished)
+        return NULL;
+
     Cell* cell = bitSweep->cells[i][j];
 
     if (cellIsMarked(cell))
         return cell;
 
     openCell(cell);
+
+    if (cellContainsBomb(cell))
+    {
+        bitSweep->isFinished = true;
+        return cell;
+    }
 
     if (cellValue(cell) != ZERO)
         return cell;
@@ -108,8 +122,10 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
         int i = cellI(neighbour);
         int j = cellJ(neighbour);
 
-        if (!cellIsOpened(neighbour) && !cellContainsBomb(neighbour)
-            && !cellIsMarked(neighbour))
+        const bool canOpenCell = !cellIsOpened(neighbour)
+            && !cellContainsBomb(neighbour) && !cellIsMarked(neighbour);
+
+        if (canOpenCell)
             openCellAt(bitSweep, i, j);
     }
 
