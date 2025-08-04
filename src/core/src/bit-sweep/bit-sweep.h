@@ -1,17 +1,8 @@
-#include "cell.h"
-#include "stdbool.h"
+#pragma once
 
-typedef struct BitSweep BitSweep;
-
-typedef struct BitSweepParams
-{
-    unsigned int seed;
-    unsigned int rows;
-    unsigned int cols;
-    unsigned int bombCount;
-} BitSweepParams;
-
-BitSweep* allocateBitSweep(BitSweepParams params);
+#include "bit-sweep-allocator.h"
+#include "bit-sweep-internal.h"
+#include "bit-sweep-printer.h"
 
 unsigned int bitSweepWidth(const BitSweep* bitSweep);
 
@@ -24,7 +15,3 @@ bool bitSweepIsFinished(const BitSweep* bitSweep);
 Cell*** bitSweepCells(const BitSweep* bitSweep);
 
 Cell* openCellAt(BitSweep* bitSweep, const int i, const int j);
-
-void printBitSweep(const BitSweep* bitSweep);
-
-void freeBitSweep(BitSweep* bitSweep);
