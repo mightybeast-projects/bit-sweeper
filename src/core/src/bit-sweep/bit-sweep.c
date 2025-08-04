@@ -20,7 +20,13 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[]);
 
 static void placeBombs(BitSweep* bitSweep, int bombsIndexes[]);
 
-static void calculateCellValues(BitSweep* bitSweep, int bombIndexes[]);
+static void assignCellValues(BitSweep* bitSweep);
+
+static void assignCellValue(BitSweep* bitSweep, const int i, const int j);
+
+static void printCellValues(const BitSweep* bitSweep);
+
+static void printCells(const BitSweep* bitSweep);
 
 BitSweep* allocateBitSweep(BitSweepParams params)
 {
@@ -96,11 +102,11 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
     for (; *neighbours; neighbours++)
     {
         Cell* neighbour = *neighbours;
-        int nI = cellI(neighbour);
-        int nJ = cellJ(neighbour);
+        int i = cellI(neighbour);
+        int j = cellJ(neighbour);
 
-        if (cellValue(neighbour) != BOMB && !cellIsOpened(neighbour))
-            openCellAt(bitSweep, nI, nJ);
+        if (!cellIsOpened(neighbour) && !cellContainsBomb(neighbour))
+            openCellAt(bitSweep, i, j);
     }
 
     return cell;
@@ -109,41 +115,9 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 void printBitSweep(const BitSweep* bitSweep)
 {
     printf("\n");
-
-    Cell*** cells = bitSweep->cells;
-
-    for (int i = 0; i < bitSweep->width; i++)
-    {
-        for (int j = 0; j < bitSweep->height; j++)
-        {
-            if (cellValue(cells[j][i]) == ZERO)
-                printf(". ");
-            else if (!cellContainsBomb(cells[j][i]))
-                printf("%d ", cellValue(cells[j][i]));
-            else
-                printf("* ");
-        }
-
-        printf("\n");
-    }
-
+    printCellValues(bitSweep);
     printf("\n");
-
-    for (int i = 0; i < bitSweep->width; i++)
-    {
-        for (int j = 0; j < bitSweep->height; j++)
-        {
-            if (cellIsOpened(cells[j][i]) && cellContainsBomb(cells[j][i]))
-                printf("* ");
-            else if (!cellIsOpened(cells[j][i]))
-                printf(". ");
-            else
-                printf("%d ", cellValue(cells[j][i]));
-        }
-
-        printf("\n");
-    }
-
+    printCells(bitSweep);
     printf("\n");
 }
 
@@ -170,7 +144,7 @@ static void initializeCells(BitSweep* bitSweep)
 
     initializeBombIndexes(bitSweep, bombIndexes);
     placeBombs(bitSweep, bombIndexes);
-    calculateCellValues(bitSweep, bombIndexes);
+    assignCellValues(bitSweep);
 
     free(bombIndexes);
 }
@@ -217,32 +191,73 @@ static void placeBombs(BitSweep* bitSweep, int bombsIndexes[])
     }
 }
 
-static void calculateCellValues(BitSweep* bitSweep, int bombIndexes[])
+static void assignCellValues(BitSweep* bitSweep)
 {
+    for (int i = 0; i < bitSweep->width; i++)
+        for (int j = 0; j < bitSweep->height; j++)
+            assignCellValue(bitSweep, i, j);
+}
+
+static void assignCellValue(BitSweep* bitSweep, const int i, const int j)
+{
+    Cell* cell = bitSweep->cells[i][j];
+
+    const int minX = MAX(0, i - 1);
+    const int maxX = MIN(i + 1, bitSweep->width - 1);
+
+    const int minJ = MAX(0, j - 1);
+    const int maxJ = MIN(j + 1, bitSweep->height - 1);
+
+    for (int k = minX; k <= maxX; k++)
+    {
+        for (int l = minJ; l <= maxJ; l++)
+        {
+            if (k == i && l == j)
+                continue;
+
+            addCellNeighbour(cell, bitSweep->cells[k][l]);
+        }
+    }
+
+    calculateCellValue(cell);
+}
+
+static void printCellValues(const BitSweep* bitSweep)
+{
+    Cell*** cells = bitSweep->cells;
+
     for (int i = 0; i < bitSweep->width; i++)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            Cell* cell = bitSweep->cells[i][j];
-
-            const int minX = MAX(0, i - 1);
-            const int maxX = MIN(i + 1, bitSweep->width - 1);
-
-            const int minJ = MAX(0, j - 1);
-            const int maxJ = MIN(j + 1, bitSweep->height - 1);
-
-            for (int k = minX; k <= maxX; k++)
-            {
-                for (int l = minJ; l <= maxJ; l++)
-                {
-                    if (k == i && l == j)
-                        continue;
-
-                    addCellNeighbour(cell, bitSweep->cells[k][l]);
-                }
-            }
-
-            calculateCellValue(cell);
+            if (cellValue(cells[j][i]) == ZERO)
+                printf(". ");
+            else if (!cellContainsBomb(cells[j][i]))
+                printf("%d ", cellValue(cells[j][i]));
+            else
+                printf("* ");
         }
+
+        printf("\n");
+    }
+}
+
+static void printCells(const BitSweep* bitSweep)
+{
+    Cell*** cells = bitSweep->cells;
+
+    for (int i = 0; i < bitSweep->width; i++)
+    {
+        for (int j = 0; j < bitSweep->height; j++)
+        {
+            if (cellIsOpened(cells[j][i]) && cellContainsBomb(cells[j][i]))
+                printf("* ");
+            else if (!cellIsOpened(cells[j][i]))
+                printf(". ");
+            else
+                printf("%d ", cellValue(cells[j][i]));
+        }
+
+        printf("\n");
     }
 }

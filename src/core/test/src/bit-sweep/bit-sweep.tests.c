@@ -113,6 +113,11 @@ void Bit_Sweep_Should_Open_Cell_At_Position()
     TEST_ASSERT_TRUE(cellIsOpened(openedCell));
 }
 
+void Bit_Sweep_Should_Not_Open_Marked_Cell()
+{
+    Cell* cell = bitSweepCells(bitSweep)[0][0];
+}
+
 void Bit_Sweep_Should_Open_Just_Cell_If_It_Has_Bomb()
 {
     openCellAt(bitSweep, 2, 1);
