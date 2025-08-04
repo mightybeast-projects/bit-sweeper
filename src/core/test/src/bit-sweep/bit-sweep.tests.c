@@ -5,7 +5,7 @@
 static unsigned int seed = 1;
 static unsigned int width = 10;
 static unsigned int height = 10;
-static unsigned int bombCount = 10;
+static unsigned int bombCount = 15;
 
 BitSweep* bitSweep;
 
@@ -98,21 +98,68 @@ void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
     TEST_ASSERT_TRUE(nonZeroValue);
 }
 
-void Bit_Sweep_Should_Return_Opened_Cell_After_Opening()
+void Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One()
 {
-    Cell* openedCell = openCellAt(bitSweep, 2, 1);
+    Cell* openedCell = openCellAt(bitSweep, 0, 0);
 
     TEST_ASSERT_NOT_NULL(openedCell);
-    TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[2][1], openedCell);
+    TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[0][0], openedCell);
 }
 
-void On_Bit_Sweep_Cell_Open_Should_Open_Cell_At_Position()
+void Bit_Sweep_Should_Open_Cell_At_Position()
 {
-    openCellAt(bitSweep, 4, 5);
+    Cell* openedCell = openCellAt(bitSweep, 4, 5);
+
+    TEST_ASSERT_TRUE(cellIsOpened(openedCell));
+}
+
+void Bit_Sweep_Should_Open_Just_Cell_If_It_Has_Bomb()
+{
+    openCellAt(bitSweep, 2, 1);
 
     Cell*** cells = bitSweepCells(bitSweep);
 
-    TEST_ASSERT_TRUE(cellIsOpened(cells[4][5]));
+    TEST_ASSERT_FALSE(cellIsOpened(cells[2][0]));
+    TEST_ASSERT_FALSE(cellIsOpened(cells[2][2]));
+    TEST_ASSERT_FALSE(cellIsOpened(cells[1][0]));
+    TEST_ASSERT_FALSE(cellIsOpened(cells[1][2]));
+
+    printBitSweep(bitSweep);
+}
+
+void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value()
+{
+    Cell* openedCell = openCellAt(bitSweep, 1, 0);
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    TEST_ASSERT_FALSE(cellIsOpened(cells[0][0]));
+
+    printBitSweep(bitSweep);
+}
+
+void Bit_Sweep_Should_Recursively_Open_All_Neighbour_Cells_That_Have_Zero_Value_If_Selected_Cell_Has_Zero_Value()
+{
+    openCellAt(bitSweep, 0, 7);
+
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    TEST_ASSERT_TRUE(cellIsOpened(cells[0][8]));
+    TEST_ASSERT_TRUE(cellIsOpened(cells[0][9]));
+
+    printBitSweep(bitSweep);
+}
+
+void Bit_Sweep_Should_Recursively_Open_All_Neighbour_Cells_That_Have_Non_Bomb_Value_If_Selected_Cell_Has_Zero_Value()
+{
+    openCellAt(bitSweep, 0, 7);
+
+    Cell*** cells = bitSweepCells(bitSweep);
+
+    TEST_ASSERT_TRUE(cellIsOpened(cells[0][6]));
+    TEST_ASSERT_TRUE(cellIsOpened(cells[1][6]));
+    TEST_ASSERT_TRUE(cellIsOpened(cells[1][7]));
+
+    printBitSweep(bitSweep);
 }
 
 void testBitSweep(void)
@@ -128,6 +175,12 @@ void testBitSweep(void)
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Randomized_Bomb_Cells);
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values);
 
-    RUN_TEST(Bit_Sweep_Should_Return_Opened_Cell_After_Opening);
-    RUN_TEST(On_Bit_Sweep_Cell_Open_Should_Open_Cell_At_Position);
+    RUN_TEST(Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One);
+    RUN_TEST(Bit_Sweep_Should_Open_Cell_At_Position);
+    RUN_TEST(Bit_Sweep_Should_Open_Just_Cell_If_It_Has_Bomb);
+    RUN_TEST(Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value);
+    RUN_TEST(
+        Bit_Sweep_Should_Recursively_Open_All_Neighbour_Cells_That_Have_Zero_Value_If_Selected_Cell_Has_Zero_Value);
+    RUN_TEST(
+        Bit_Sweep_Should_Recursively_Open_All_Neighbour_Cells_That_Have_Non_Bomb_Value_If_Selected_Cell_Has_Zero_Value);
 }
