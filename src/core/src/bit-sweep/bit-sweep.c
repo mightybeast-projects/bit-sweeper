@@ -52,22 +52,17 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 
     bitSweep->openedCellsCount++;
 
-    if (bitSweep->openedCellsCount == bitSweepNonBombCellsCount(bitSweep))
+    bool gameWon = bitSweep->openedCellsCount == bitSweepNonBombCellsCount(bitSweep);
+    bool gameLost = cellContainsBomb(cell);
+
+    if (gameWon || gameLost)
     {
         bitSweep->isFinished = true;
         return cell;
     }
 
-    if (cellContainsBomb(cell))
-    {
-        bitSweep->isFinished = true;
-        return cell;
-    }
-
-    if (cellValue(cell) != ZERO)
-        return cell;
-
-    openCellNeighbours(bitSweep, cell);
+    if (cellValue(cell) == ZERO)
+        openCellNeighbours(bitSweep, cell);
 
     return cell;
 }
@@ -82,10 +77,7 @@ static void openCellNeighbours(BitSweep* bitSweep, const Cell* cell)
         int i = cellI(neighbour);
         int j = cellJ(neighbour);
 
-        const bool canOpenCell = !cellIsOpened(neighbour)
-            && !cellContainsBomb(neighbour) && !cellIsMarked(neighbour);
-
-        if (canOpenCell)
+        if (!cellIsOpened(neighbour) && !cellContainsBomb(neighbour))
             openCellAt(bitSweep, i, j);
     }
 }
