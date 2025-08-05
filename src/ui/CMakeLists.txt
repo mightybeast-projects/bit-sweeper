@@ -1,9 +1,15 @@
+#ui-lib
 file(GLOB_RECURSE CORE_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
 )
 
 add_library(bitsweeper-ui STATIC
-    ${CORE_SOURCES} 
+    ${CORE_SOURCES}
+)
+
+target_link_libraries(bitsweeper-ui PRIVATE
+	raylib
+	bitsweeper-core
 )
  
 target_include_directories(bitsweeper-ui PUBLIC
@@ -18,4 +24,16 @@ foreach(dir ${INCLUDE_DIRS})
 	endif()
 endforeach()
 
+#game
+add_executable(bitsweeper-game
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.c
+)
+
+target_link_libraries(bitsweeper-game PRIVATE
+	bitsweeper-ui
+	bitsweeper-core
+	raylib
+)
+
+#ui-tests
 add_subdirectory(test)
