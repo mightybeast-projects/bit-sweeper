@@ -25,27 +25,27 @@ void Allocated_Cell_Should_Have_Zero_Zero_Position()
     TEST_ASSERT_EQUAL_INT(0, cellJ(cell));
 }
 
-void Allocated_Cell_Should_Not_Be_Opened_By_Default()
+void Allocated_Cell_Should_Not_Be_Opened()
 {
     TEST_ASSERT_FALSE(cellIsOpened(cell));
 }
 
-void Allocated_Cell_Should_Not_Be_Marked_By_Default()
+void Allocated_Cell_Should_Not_Be_Marked()
 {
     TEST_ASSERT_FALSE(cellIsMarked(cell));
 }
 
-void Allocated_Cell_Should_Have_Zero_Value_By_Default()
+void Allocated_Cell_Should_Have_Zero_Value()
 {
     TEST_ASSERT_EQUAL_UINT(ZERO, cellValue(cell));
 }
 
-void Allocated_Cell_Should_Not_Contain_Bomb_By_Default()
+void Allocated_Cell_Should_Not_Contain_Bomb()
 {
     TEST_ASSERT_FALSE(cellContainsBomb(cell));
 }
 
-void Allocated_Cell_Should_Not_Have_Neighbours_By_Default()
+void Allocated_Cell_Should_Not_Have_Neighbours()
 {
     Cell** neighbours = cellNeighbours(cell);
 
@@ -164,11 +164,11 @@ void testCell(void)
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
 
     RUN_TEST(Allocated_Cell_Should_Have_Zero_Zero_Position);
-    RUN_TEST(Allocated_Cell_Should_Not_Be_Opened_By_Default);
-    RUN_TEST(Allocated_Cell_Should_Not_Be_Marked_By_Default);
-    RUN_TEST(Allocated_Cell_Should_Have_Zero_Value_By_Default);
-    RUN_TEST(Allocated_Cell_Should_Not_Have_Neighbours_By_Default);
-    RUN_TEST(Allocated_Cell_Should_Not_Contain_Bomb_By_Default);
+    RUN_TEST(Allocated_Cell_Should_Not_Be_Opened);
+    RUN_TEST(Allocated_Cell_Should_Not_Be_Marked);
+    RUN_TEST(Allocated_Cell_Should_Have_Zero_Value);
+    RUN_TEST(Allocated_Cell_Should_Not_Have_Neighbours);
+    RUN_TEST(Allocated_Cell_Should_Not_Contain_Bomb);
 
     RUN_TEST(Cell_Should_Be_Able_To_Set_Its_Indexes);
 

@@ -19,6 +19,9 @@ static void assignCellValue(BitSweep* bitSweep, const int i, const int j);
 
 BitSweep* allocateBitSweep(BitSweepParams params)
 {
+    if (params.bombCount > params.cols * params.rows)
+        return NULL;
+
     BitSweep* bitSweep = safeMalloc(sizeof(struct BitSweep));
 
     bitSweep->width = params.cols;

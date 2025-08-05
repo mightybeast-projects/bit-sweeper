@@ -28,6 +28,15 @@ void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
     printBitSweep(bitSweep);
 }
 
+void Bit_Sweep_Allocation_Should_Not_Allocate_New_Bit_Sweep_If_Bomb_Count_Is_Higher_Than_Cells_Count()
+{
+    BitSweepParams params = { seed, width, height, 200 };
+
+    BitSweep* res = allocateBitSweep(params);
+
+    TEST_ASSERT_NULL(res);
+}
+
 void Allocated_Bit_Sweep_Should_Have_Initialized_Width()
 {
     TEST_ASSERT_EQUAL_UINT(width, bitSweepWidth(bitSweep));
@@ -201,6 +210,8 @@ void Bit_Sweep_Should_Not_Open_Cell_If_Game_Is_Finished()
 void testBitSweep(void)
 {
     RUN_TEST(Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep);
+    RUN_TEST(
+        Bit_Sweep_Allocation_Should_Not_Allocate_New_Bit_Sweep_If_Bomb_Count_Is_Higher_Than_Cells_Count);
 
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Width);
     RUN_TEST(Allocated_Bit_Sweep_Should_Have_Initialized_Height);
