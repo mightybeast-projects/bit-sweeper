@@ -18,6 +18,16 @@ unsigned int bitSweepBombCount(const BitSweep* bitSweep)
     return bitSweep->bombCount;
 }
 
+int bitSweepOpenedCellsCount(const BitSweep* bitSweep)
+{
+    return bitSweep->openedCellsCount;
+}
+
+int bitSweepNonBombCellsCount(const BitSweep* bitSweep)
+{
+    return bitSweep->width * bitSweep->height - bitSweep->bombCount;
+}
+
 bool bitSweepIsFinished(const BitSweep* bitSweep)
 {
     return bitSweep->isFinished;
@@ -39,6 +49,14 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
         return cell;
 
     openCell(cell);
+
+    bitSweep->openedCellsCount++;
+
+    if (bitSweep->openedCellsCount == bitSweepNonBombCellsCount(bitSweep))
+    {
+        bitSweep->isFinished = true;
+        return cell;
+    }
 
     if (cellContainsBomb(cell))
     {

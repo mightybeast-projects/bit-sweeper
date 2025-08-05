@@ -27,6 +27,8 @@ BitSweep* allocateBitSweep(BitSweepParams params)
     bitSweep->width = params.cols;
     bitSweep->height = params.rows;
     bitSweep->bombCount = params.bombCount;
+    bitSweep->isFinished = false;
+    bitSweep->openedCellsCount = 0;
 
     allocateCells(bitSweep);
 
@@ -94,7 +96,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
 
         bool duplicated = false;
 
-        for (int j = 0; j < bitSweep->bombCount; j++)
+        for (int j = 0; j < i; j++)
         {
             if (bombIndexes[j] == rIndex)
             {

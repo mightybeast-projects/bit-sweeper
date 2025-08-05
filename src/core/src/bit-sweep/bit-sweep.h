@@ -10,6 +10,10 @@ unsigned int bitSweepHeight(const BitSweep* bitSweep);
 
 unsigned int bitSweepBombCount(const BitSweep* bitSweep);
 
+int bitSweepOpenedCellsCount(const BitSweep* bitSweep);
+
+int bitSweepNonBombCellsCount(const BitSweep* bitSweep);
+
 bool bitSweepIsFinished(const BitSweep* bitSweep);
 
 Cell*** bitSweepCells(const BitSweep* bitSweep);
