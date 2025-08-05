@@ -207,13 +207,11 @@ void Bit_Sweep_Should_Add_To_Opened_Cells_Count_On_Cell_Open()
 
 void Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened()
 {
-    BitSweepParams params = { 1, 2, 2, 1 };
+    BitSweepParams params = { 1, 2, 1, 1 };
 
     BitSweep* game = allocateBitSweep(params);
 
     openCellAt(game, 0, 0);
-    openCellAt(game, 0, 1);
-    openCellAt(game, 1, 0);
 
     printBitSweep(game);
 

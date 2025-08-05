@@ -22,10 +22,10 @@ static void printCellValues(const BitSweep* bitSweep)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            if (cellValue(cells[j][i]) == ZERO)
+            if (cellValue(cells[i][j]) == ZERO)
                 printf(". ");
-            else if (!cellContainsBomb(cells[j][i]))
-                printf("%d ", cellValue(cells[j][i]));
+            else if (!cellContainsBomb(cells[i][j]))
+                printf("%d ", cellValue(cells[i][j]));
             else
                 printf("* ");
         }
@@ -42,7 +42,7 @@ static void printCells(const BitSweep* bitSweep)
     {
         for (int j = 0; j < bitSweep->height; j++)
         {
-            Cell* cell = cells[j][i];
+            Cell* cell = cells[i][j];
 
             if (cellIsOpened(cell) && cellContainsBomb(cell))
                 printf("* ");
