@@ -13,7 +13,8 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Run tests",
+			"label": "Run Core tests",
+			"dependsOn": ["Build"],
 			"type": "shell",
 			"command": "./bitsweeper-core-tests",
 			"options": {
@@ -27,8 +28,23 @@
 			"problemMatcher": []
 		},
 		{
-			"label": "Build and Run Tests",
-			"dependsOn": ["Build", "Run tests"],
+			"label": "Run UI tests",
+			"dependsOn": ["Build"],
+			"type": "shell",
+			"command": "./bitsweeper-ui-tests",
+			"options": {
+				"cwd": "${workspaceFolder}/build/src/ui/test"
+			},
+			"group": "test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": []
+		},
+		{
+			"label": "Run All Tests",
+			"dependsOn": ["Build", "Run Core tests", "Run UI tests"],
 			"dependsOrder": "sequence",
 			"group": {
 				"kind": "test",
