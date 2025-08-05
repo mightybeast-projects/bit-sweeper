@@ -1,5 +1,5 @@
 #include "cell.h"
-#include "stdlib.h"
+#include "safe-memory.h"
 
 #define NEIGHBOURS_COUNT 8
 
@@ -15,10 +15,7 @@ struct Cell
 
 Cell* allocateCell(void)
 {
-    Cell* cell = malloc(sizeof(struct Cell));
-
-    if (!cell)
-        return NULL;
+    Cell* cell = safeMalloc(sizeof(struct Cell));
 
     cell->i = 0;
     cell->j = 0;
@@ -26,13 +23,7 @@ Cell* allocateCell(void)
     cell->isMarked = false;
     cell->value = ZERO;
 
-    cell->neighbours = malloc(sizeof(Cell*) * (NEIGHBOURS_COUNT + 1));
-
-    if (!cell->neighbours)
-    {
-        free(cell);
-        return NULL;
-    }
+    cell->neighbours = safeMalloc(sizeof(Cell*) * (NEIGHBOURS_COUNT + 1));
 
     for (int i = 0; i < NEIGHBOURS_COUNT + 1; i++)
         cell->neighbours[i] = NULL;

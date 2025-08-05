@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"*.dbclient-js": "javascript",
+		"*.embeddedhtml": "html",
+		"*.mustache": "html",
+		"*.php": "php",
+		"*.tpp": "cpp",
+		"memory.h": "c"
+	}
+}

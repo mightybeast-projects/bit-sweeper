@@ -1,4 +1,5 @@
 #include "bit-sweep-allocator.h"
+#include "safe-memory.h"
 #include "stdlib.h"
 
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
@@ -18,22 +19,13 @@ static void assignCellValue(BitSweep* bitSweep, const int i, const int j);
 
 BitSweep* allocateBitSweep(BitSweepParams params)
 {
-    BitSweep* bitSweep = malloc(sizeof(struct BitSweep));
-
-    if (!bitSweep)
-        return NULL;
+    BitSweep* bitSweep = safeMalloc(sizeof(struct BitSweep));
 
     bitSweep->width = params.cols;
     bitSweep->height = params.rows;
     bitSweep->bombCount = params.bombCount;
 
     allocateCells(bitSweep);
-
-    if (!bitSweep->cells)
-    {
-        freeBitSweep(bitSweep);
-        return NULL;
-    }
 
     srand(params.seed);
 
@@ -63,37 +55,15 @@ void freeBitSweep(BitSweep* bitSweep)
 
 static void allocateCells(BitSweep* bitSweep)
 {
-    bitSweep->cells = malloc(sizeof(Cell**) * bitSweep->width);
-
-    if (!bitSweep->cells)
-        return;
+    bitSweep->cells = safeMalloc(sizeof(Cell**) * bitSweep->width);
 
     for (int i = 0; i < bitSweep->width; i++)
     {
-        bitSweep->cells[i] = malloc(sizeof(Cell*) * bitSweep->height);
-
-        if (!bitSweep->cells[i])
-        {
-            for (int j = 0; j < i; j++)
-            {
-                for (int k = 0; k < bitSweep->height; k++)
-                    if (bitSweep->cells[j][k])
-                        free(bitSweep->cells[j][k]);
-
-                free(bitSweep->cells[j]);
-            }
-
-            free(bitSweep->cells);
-            bitSweep->cells = NULL;
-            return;
-        }
+        bitSweep->cells[i] = safeMalloc(sizeof(Cell*) * bitSweep->height);
 
         for (int j = 0; j < bitSweep->height; j++)
         {
             Cell* cell = allocateCell();
-
-            if (!cell)
-                continue;
 
             setCellIndexes(cell, i, j);
 
@@ -104,10 +74,7 @@ static void allocateCells(BitSweep* bitSweep)
 
 static void initializeCells(BitSweep* bitSweep)
 {
-    int* bombIndexes = malloc(sizeof(int) * bitSweep->bombCount);
-
-    if (!bombIndexes)
-        return;
+    int* bombIndexes = safeMalloc(sizeof(int) * bitSweep->bombCount);
 
     initializeBombIndexes(bitSweep, bombIndexes);
     placeBombs(bitSweep, bombIndexes);
