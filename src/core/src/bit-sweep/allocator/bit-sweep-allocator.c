@@ -79,7 +79,7 @@ static void allocateCells(BitSweep* bitSweep)
 
 static void initializeCells(BitSweep* bitSweep)
 {
-    int* bombIndexes = safeMalloc(sizeof(int) * bitSweep->bombCount);
+    unsigned* bombIndexes = safeMalloc(sizeof(unsigned) * bitSweep->bombCount);
 
     initializeBombIndexes(bitSweep, bombIndexes);
     placeBombs(bitSweep, bombIndexes);
@@ -92,7 +92,7 @@ static void initializeBombIndexes(const BitSweep* bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
-        const unsigned rIndex = rand() % (bitSweep->width * bitSweep->height);
+        const int rIndex = rand() % (bitSweep->width * bitSweep->height);
 
         bool duplicated = false;
 

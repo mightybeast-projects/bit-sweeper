@@ -20,9 +20,9 @@ typedef struct Cell Cell;
 
 Cell* allocateCell(void);
 
-unsigned int cellI(const Cell* cell);
+int cellI(const Cell* cell);
 
-unsigned int cellJ(const Cell* cell);
+int cellJ(const Cell* cell);
 
 bool cellIsOpened(const Cell* cell);
 
@@ -38,7 +38,7 @@ CellValue cellValue(const Cell* cell);
 
 void setCellValue(Cell* cell, CellValue value);
 
-void setCellIndexes(Cell* cell, unsigned i, unsigned j);
+void setCellIndexes(Cell* cell, int i, int j);
 
 Cell** cellNeighbours(const Cell* cell);
 

@@ -4,11 +4,11 @@
 #include "bit-sweep-internal.h"
 #include "bit-sweep-printer.h"
 
-unsigned int bitSweepWidth(const BitSweep* bitSweep);
+unsigned bitSweepWidth(const BitSweep* bitSweep);
 
-unsigned int bitSweepHeight(const BitSweep* bitSweep);
+unsigned bitSweepHeight(const BitSweep* bitSweep);
 
-unsigned int bitSweepBombCount(const BitSweep* bitSweep);
+unsigned bitSweepBombCount(const BitSweep* bitSweep);
 
 int bitSweepOpenedCellsCount(const BitSweep* bitSweep);
 

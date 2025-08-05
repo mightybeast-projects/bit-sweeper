@@ -5,8 +5,8 @@
 
 struct Cell
 {
-    unsigned int i;
-    unsigned int j;
+    int i;
+    int j;
     bool isOpened;
     bool isMarked;
     CellValue value;
@@ -31,12 +31,12 @@ Cell* allocateCell(void)
     return cell;
 }
 
-unsigned int cellI(const Cell* cell)
+int cellI(const Cell* cell)
 {
     return cell->i;
 }
 
-unsigned int cellJ(const Cell* cell)
+int cellJ(const Cell* cell)
 {
     return cell->j;
 }
@@ -76,7 +76,7 @@ void setCellValue(Cell* cell, CellValue value)
     cell->value = value;
 }
 
-void setCellIndexes(Cell* cell, unsigned i, unsigned j)
+void setCellIndexes(Cell* cell, int i, int j)
 {
     cell->i = i;
     cell->j = j;

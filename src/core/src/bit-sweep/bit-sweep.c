@@ -3,17 +3,17 @@
 
 static void openCellNeighbours(BitSweep* bitSweep, const Cell* cell);
 
-unsigned int bitSweepWidth(const BitSweep* bitSweep)
+unsigned bitSweepWidth(const BitSweep* bitSweep)
 {
     return bitSweep->width;
 }
 
-unsigned int bitSweepHeight(const BitSweep* bitSweep)
+unsigned bitSweepHeight(const BitSweep* bitSweep)
 {
     return bitSweep->height;
 }
 
-unsigned int bitSweepBombCount(const BitSweep* bitSweep)
+unsigned bitSweepBombCount(const BitSweep* bitSweep)
 {
     return bitSweep->bombCount;
 }

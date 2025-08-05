@@ -4,9 +4,9 @@
 
 typedef struct BitSweep
 {
-    unsigned int width;
-    unsigned int height;
-    unsigned int bombCount;
+    unsigned width;
+    unsigned height;
+    unsigned bombCount;
     int openedCellsCount;
     bool isFinished;
     Cell*** cells;

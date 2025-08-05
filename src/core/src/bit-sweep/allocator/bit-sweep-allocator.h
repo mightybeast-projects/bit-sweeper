@@ -4,10 +4,10 @@
 
 typedef struct BitSweepParams
 {
-    unsigned int seed;
-    unsigned int rows;
-    unsigned int cols;
-    unsigned int bombCount;
+    unsigned seed;
+    unsigned rows;
+    unsigned cols;
+    unsigned bombCount;
 } BitSweepParams;
 
 BitSweep* allocateBitSweep(BitSweepParams params);

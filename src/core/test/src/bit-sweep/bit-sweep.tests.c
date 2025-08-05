@@ -2,10 +2,10 @@
 #include "bit-sweep.h"
 #include "unity.h"
 
-static unsigned int seed = 1;
-static unsigned int width = 10;
-static unsigned int height = 10;
-static unsigned int bombCount = 15;
+static unsigned seed = 1;
+static unsigned width = 10;
+static unsigned height = 10;
+static unsigned bombCount = 15;
 
 BitSweep* bitSweep;
 
