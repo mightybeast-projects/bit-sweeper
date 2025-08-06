@@ -1,14 +1,16 @@
 #include "bit-sweep-widget.h"
 #include "bit-sweep.h"
 #include "cell-widget.h"
+#include "config.h"
 #include "raylib.h"
+#include "time.h"
 
 void main()
 {
-    InitWindow(500, 500, "BitSweeper");
+    InitWindow(WIDTH, WIDTH, "BitSweeper");
     SetTargetFPS(60);
 
-    BitSweepParams params = { 1, 10, 10, 10 };
+    BitSweepParams params = { time(NULL), 20, 20, 50 };
     BitSweepWidget* widget = allocateBitSweepWidget(params);
 
     while (!WindowShouldClose())

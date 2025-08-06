@@ -1,40 +1,16 @@
 #include "bit-sweep-widget.h"
+#include "config.h"
 #include "safe-memory.h"
+
+static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep);
 
 BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
 {
     BitSweepWidget* widget = safeMalloc(sizeof(struct BitSweepWidget));
     BitSweep* bitSweep = allocateBitSweep(params);
 
-    int width = bitSweepWidth(bitSweep);
-    int height = bitSweepHeight(bitSweep);
-
-    CellWidget*** cellsWidgets = safeMalloc(sizeof(CellWidget**) * width);
-
-    int cellCount = width;
-    float margin = 5;
-    float size = (500 - (cellCount - 1) * margin - margin * 2) / cellCount;
-
-    for (int i = 0; i < width; i++)
-    {
-        cellsWidgets[i] = safeMalloc(sizeof(CellWidget*) * height);
-
-        for (int j = 0; j < height; j++)
-        {
-            float x = i * (size + margin) + margin;
-            float y = j * (size + margin) + margin;
-            Rectangle rect = { x, y, size, size };
-
-            Cell* cell = bitSweepCells(bitSweep)[i][j];
-
-            CellWidget* cellWidget = allocateCellWidget(rect, cell, bitSweep);
-
-            cellsWidgets[i][j] = cellWidget;
-        }
-    }
-
     widget->bitSweep = bitSweep;
-    widget->cellsWidgets = cellsWidgets;
+    widget->cellsWidgets = allocateCellsWidgets(bitSweep);
 
     return widget;
 }
@@ -74,4 +50,36 @@ void freeBitSweepWidget(BitSweepWidget* widget)
     free(widget->cellsWidgets);
     freeBitSweep(widget->bitSweep);
     free(widget);
+}
+
+static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep)
+{
+    int width = bitSweepWidth(bitSweep);
+    int height = bitSweepHeight(bitSweep);
+
+    CellWidget*** cellsWidgets = safeMalloc(sizeof(CellWidget**) * width);
+
+    int cellCount = width;
+    float margin = 5;
+    float size = (WIDTH - (cellCount - 1) * margin - margin * 2) / cellCount;
+
+    for (int i = 0; i < width; i++)
+    {
+        cellsWidgets[i] = safeMalloc(sizeof(CellWidget*) * height);
+
+        for (int j = 0; j < height; j++)
+        {
+            float x = i * (size + margin) + margin;
+            float y = j * (size + margin) + margin;
+            Rectangle rect = { x, y, size, size };
+
+            Cell* cell = bitSweepCells(bitSweep)[i][j];
+
+            CellWidget* cellWidget = allocateCellWidget(rect, cell, bitSweep);
+
+            cellsWidgets[i][j] = cellWidget;
+        }
+    }
+
+    return cellsWidgets;
 }

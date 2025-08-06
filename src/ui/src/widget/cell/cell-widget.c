@@ -27,7 +27,8 @@ void handleCellWidgetInput(CellWidget* widget)
 {
     const Vector2 mousePos = GetMousePosition();
     const Rectangle rect = widget->rect;
-    const Cell* cell = widget->cell;
+
+    Cell* cell = widget->cell;
 
     bool mouseCollides = CheckCollisionPointRec(mousePos, rect);
 
@@ -72,11 +73,11 @@ static void drawCellBackground(const CellWidget* widget, const Cell* cell)
 
 static void drawCellMark(const Rectangle rect, const Cell* cell)
 {
-    const float x = rect.x + rect.width / 2.05;
+    const float x = rect.x + rect.width / 2.75;
     const float y = rect.y + rect.width / 5;
     const int fontSize = rect.width / 1.4;
 
-    DrawText("!", x, y, fontSize, RED);
+    DrawText("!!!", x, y, fontSize, RED);
 }
 
 static void drawCellValue(const Rectangle rect, const Cell* cell)

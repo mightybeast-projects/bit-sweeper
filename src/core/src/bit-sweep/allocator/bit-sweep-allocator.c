@@ -5,7 +5,7 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
-static void allocateCells(BitSweep* bitSweep);
+static Cell*** allocateCells(BitSweep* bitSweep);
 
 static void initializeCells(BitSweep* bitSweep);
 
@@ -29,8 +29,7 @@ BitSweep* allocateBitSweep(BitSweepParams params)
     bitSweep->bombCount = params.bombCount;
     bitSweep->isFinished = false;
     bitSweep->openedCellsCount = 0;
-
-    allocateCells(bitSweep);
+    bitSweep->cells = allocateCells(bitSweep);
 
     srand(params.seed);
 
@@ -58,13 +57,13 @@ void freeBitSweep(BitSweep* bitSweep)
     free(bitSweep);
 }
 
-static void allocateCells(BitSweep* bitSweep)
+static Cell*** allocateCells(BitSweep* bitSweep)
 {
-    bitSweep->cells = safeMalloc(sizeof(Cell**) * bitSweep->width);
+    Cell*** cells = safeMalloc(sizeof(Cell**) * bitSweep->width);
 
     for (int i = 0; i < bitSweep->width; i++)
     {
-        bitSweep->cells[i] = safeMalloc(sizeof(Cell*) * bitSweep->height);
+        cells[i] = safeMalloc(sizeof(Cell*) * bitSweep->height);
 
         for (int j = 0; j < bitSweep->height; j++)
         {
@@ -72,9 +71,11 @@ static void allocateCells(BitSweep* bitSweep)
 
             setCellIndexes(cell, i, j);
 
-            bitSweep->cells[i][j] = cell;
+            cells[i][j] = cell;
         }
     }
+
+    return cells;
 }
 
 static void initializeCells(BitSweep* bitSweep)
