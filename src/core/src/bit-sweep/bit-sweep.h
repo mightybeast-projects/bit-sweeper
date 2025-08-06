@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bit-sweep-allocator.h"
-#include "bit-sweep-internal.h"
 #include "bit-sweep-printer.h"
 
 unsigned bitSweepWidth(const BitSweep* bitSweep);
@@ -19,3 +18,5 @@ bool bitSweepIsFinished(const BitSweep* bitSweep);
 Cell*** bitSweepCells(const BitSweep* bitSweep);
 
 Cell* openCellAt(BitSweep* bitSweep, const int i, const int j);
+
+Cell* toggleCellMarkAt(BitSweep* bitSweep, const int i, const int j);

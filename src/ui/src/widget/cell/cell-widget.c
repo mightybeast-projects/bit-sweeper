@@ -38,7 +38,7 @@ void handleCellWidgetInput(CellWidget* widget)
         openCellAt(widget->bitSweep, cellI(cell), cellJ(cell));
 
     if (IsMouseButtonReleased(MOUSE_RIGHT_BUTTON) && mouseCollides)
-        toggleCellMark(cell);
+        toggleCellMarkAt(widget->bitSweep, cellI(cell), cellJ(cell));
 }
 
 void drawCellWidget(const CellWidget* widget)

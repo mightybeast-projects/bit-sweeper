@@ -30,6 +30,9 @@ void drawBitSweepWidget(const BitSweepWidget* widget)
             drawCellWidget(cellsWidgets[i][j]);
         }
     }
+
+    if (bitSweepIsFinished(widget->bitSweep))
+        DrawText("FINISHED", 0, 0, 20, RED);
 }
 
 void freeBitSweepWidget(BitSweepWidget* widget)
@@ -38,6 +41,7 @@ void freeBitSweepWidget(BitSweepWidget* widget)
     CellWidget*** cellsWidgets = widget->cellsWidgets;
 
     for (int i = 0; i < bitSweepWidth(bitSweep); i++)
+
     {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
             if (cellsWidgets[i][j])

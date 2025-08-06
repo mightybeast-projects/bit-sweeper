@@ -22,7 +22,6 @@ Cell* allocateCell(void)
     cell->isOpened = false;
     cell->isMarked = false;
     cell->value = ZERO;
-
     cell->neighbours = safeMalloc(sizeof(Cell*) * (NEIGHBOURS_COUNT + 1));
 
     for (int i = 0; i < NEIGHBOURS_COUNT + 1; i++)
@@ -48,9 +47,6 @@ bool cellIsOpened(const Cell* cell)
 
 void openCell(Cell* cell)
 {
-    if (cell->isMarked)
-        return;
-
     cell->isOpened = true;
 }
 
@@ -61,9 +57,6 @@ bool cellIsMarked(const Cell* cell)
 
 void toggleCellMark(Cell* cell)
 {
-    if (cell->isOpened)
-        return;
-
     cell->isMarked = !cell->isMarked;
 }
 

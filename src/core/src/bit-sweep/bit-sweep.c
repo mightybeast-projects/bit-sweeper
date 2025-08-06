@@ -40,12 +40,9 @@ Cell*** bitSweepCells(const BitSweep* bitSweep)
 
 Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 {
-    if (bitSweep->isFinished)
-        return NULL;
-
     Cell* cell = bitSweep->cells[i][j];
 
-    if (cellIsMarked(cell))
+    if (cellIsOpened(cell) || bitSweep->isFinished || cellIsMarked(cell))
         return cell;
 
     openCell(cell);
@@ -63,6 +60,16 @@ Cell* openCellAt(BitSweep* bitSweep, const int i, const int j)
 
     if (cellValue(cell) == ZERO)
         openCellNeighbours(bitSweep, cell);
+
+    return cell;
+}
+
+Cell* toggleCellMarkAt(BitSweep* bitSweep, const int i, const int j)
+{
+    Cell* cell = bitSweep->cells[i][j];
+
+    if (!cellIsOpened(cell) && !bitSweep->isFinished)
+        toggleCellMark(cell);
 
     return cell;
 }

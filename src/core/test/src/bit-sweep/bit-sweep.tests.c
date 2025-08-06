@@ -121,17 +121,16 @@ void Allocated_Bit_Sweep_Should_Have_Non_Bomb_Cells_Count_Equal_To_All_Cells_Min
 
 void Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One()
 {
-    Cell* openedCell = openCellAt(bitSweep, 0, 0);
+    Cell* cell = openCellAt(bitSweep, 0, 0);
 
-    TEST_ASSERT_NOT_NULL(openedCell);
-    TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[0][0], openedCell);
+    TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[0][0], cell);
 }
 
 void Bit_Sweep_Should_Open_Cell_At_Position()
 {
-    Cell* openedCell = openCellAt(bitSweep, 4, 5);
+    Cell* cell = openCellAt(bitSweep, 4, 5);
 
-    TEST_ASSERT_TRUE(cellIsOpened(openedCell));
+    TEST_ASSERT_TRUE(cellIsOpened(cell));
 }
 
 void Bit_Sweep_Should_Not_Open_Marked_Cell()
@@ -146,6 +145,14 @@ void Bit_Sweep_Should_Not_Open_Marked_Cell()
     TEST_ASSERT_EQUAL(res, cell);
 
     printBitSweep(bitSweep);
+}
+
+void Bit_Sweep_Should_Not_Open_Already_Opened_Cell()
+{
+    openCellAt(bitSweep, 1, 0);
+    openCellAt(bitSweep, 1, 0);
+
+    TEST_ASSERT_EQUAL_INT(1, bitSweepOpenedCellsCount(bitSweep));
 }
 
 void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Bomb()
@@ -164,11 +171,11 @@ void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Bomb()
 
 void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value()
 {
-    Cell* openedCell = openCellAt(bitSweep, 1, 0);
+    Cell* cell = openCellAt(bitSweep, 1, 0);
     Cell*** cells = bitSweepCells(bitSweep);
 
     TEST_ASSERT_FALSE(cellIsOpened(cells[0][0]));
-    TEST_ASSERT_EQUAL(openedCell, bitSweepCells(bitSweep)[1][0]);
+    TEST_ASSERT_EQUAL(cell, bitSweepCells(bitSweep)[1][0]);
 
     printBitSweep(bitSweep);
 }
@@ -236,9 +243,49 @@ void Bit_Sweep_Should_Not_Open_Cell_If_Game_Is_Finished()
 
     const Cell* res = openCellAt(bitSweep, 0, 0);
 
-    TEST_ASSERT_NULL(res);
+    TEST_ASSERT_FALSE(cellIsOpened(res));
 
     printBitSweep(bitSweep);
+}
+
+void Bit_Sweep_Should_Return_Cell_After_Toggling_Its_Mark()
+{
+    const Cell* cell = toggleCellMarkAt(bitSweep, 0, 0);
+
+    TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[0][0], cell);
+}
+
+void Bit_Sweep_Should_Toggle_Cell_Mark()
+{
+    const Cell* cell = toggleCellMarkAt(bitSweep, 0, 0);
+
+    TEST_ASSERT_TRUE(cellIsMarked(cell));
+}
+
+void Bit_Sweep_Should_Not_Toggle_Cell_If_It_Is_Opened()
+{
+    const Cell* cell = openCellAt(bitSweep, 0, 0);
+
+    toggleCellMarkAt(bitSweep, 0, 0);
+
+    TEST_ASSERT_FALSE(cellIsMarked(cell));
+}
+
+void Bit_Sweep_Should_Not_Toggle_Cell_If_Game_Is_Finished()
+{
+    BitSweepParams params = { 1, 2, 1, 1 };
+
+    BitSweep* game = allocateBitSweep(params);
+
+    openCellAt(game, 0, 0);
+
+    Cell* cell = toggleCellMarkAt(game, 0, 0);
+
+    printBitSweep(game);
+
+    TEST_ASSERT_FALSE(cellIsMarked(bitSweepCells(bitSweep)[0][0]));
+
+    freeBitSweep(game);
 }
 
 void testBitSweep(void)
@@ -259,6 +306,7 @@ void testBitSweep(void)
     RUN_TEST(Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One);
     RUN_TEST(Bit_Sweep_Should_Open_Cell_At_Position);
     RUN_TEST(Bit_Sweep_Should_Not_Open_Marked_Cell);
+    RUN_TEST(Bit_Sweep_Should_Not_Open_Already_Opened_Cell);
     RUN_TEST(Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Bomb);
     RUN_TEST(Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value);
     RUN_TEST(Bit_Sweep_Should_Recursively_Open_All_Neighbour_Cells_That_Have_Zero_Value_If_Selected_Cell_Has_Zero_Value);
@@ -267,4 +315,9 @@ void testBitSweep(void)
     RUN_TEST(Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened);
     RUN_TEST(Bit_Sweep_Should_Finish_Itself_If_Bomb_Cell_Was_Opened);
     RUN_TEST(Bit_Sweep_Should_Not_Open_Cell_If_Game_Is_Finished);
+
+    RUN_TEST(Bit_Sweep_Should_Return_Cell_After_Toggling_Its_Mark);
+    RUN_TEST(Bit_Sweep_Should_Toggle_Cell_Mark);
+    RUN_TEST(Bit_Sweep_Should_Not_Toggle_Cell_If_It_Is_Opened);
+    RUN_TEST(Bit_Sweep_Should_Not_Toggle_Cell_If_Game_Is_Finished);
 }

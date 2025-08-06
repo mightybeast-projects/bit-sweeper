@@ -1,1 +1,1 @@
-#define WIDTH 700
+#define WIDTH 500

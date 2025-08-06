@@ -5,8 +5,8 @@
 typedef struct BitSweepParams
 {
     unsigned seed;
-    unsigned rows;
     unsigned cols;
+    unsigned rows;
     unsigned bombCount;
 } BitSweepParams;
 

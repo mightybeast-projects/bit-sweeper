@@ -10,7 +10,7 @@ void main()
     InitWindow(WIDTH, WIDTH, "BitSweeper");
     SetTargetFPS(60);
 
-    BitSweepParams params = { time(NULL), 20, 20, 50 };
+    BitSweepParams params = { 1, 10, 10, 10 };
     BitSweepWidget* widget = allocateBitSweepWidget(params);
 
     while (!WindowShouldClose())
