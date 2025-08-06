@@ -1,4 +1,5 @@
 #include "bit-sweep-printer.h"
+#include "bit-sweep-internal.h"
 #include "stdio.h"
 
 static void printCellValues(const BitSweep* bitSweep);

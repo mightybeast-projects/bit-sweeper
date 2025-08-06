@@ -1,4 +1,5 @@
 #include "bit-sweep.h"
+#include "bit-sweep-internal.h"
 #include "stdlib.h"
 
 static void openCellNeighbours(BitSweep* bitSweep, const Cell* cell);

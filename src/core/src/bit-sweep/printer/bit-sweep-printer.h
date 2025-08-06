@@ -1,5 +1,5 @@
 #pragma once
 
-#include "bit-sweep-internal.h"
+typedef struct BitSweep BitSweep;
 
 void printBitSweep(const BitSweep* bitSweep);

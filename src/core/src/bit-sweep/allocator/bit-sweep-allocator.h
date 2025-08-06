@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bit-sweep-internal.h"
+typedef struct BitSweep BitSweep;
 
 typedef struct BitSweepParams
 {

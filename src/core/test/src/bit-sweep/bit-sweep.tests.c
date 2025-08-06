@@ -209,7 +209,7 @@ void Bit_Sweep_Should_Add_To_Opened_Cells_Count_On_Cell_Open()
 {
     openCellAt(bitSweep, 0, 7);
 
-    TEST_ASSERT_EQUAL_INT(12, bitSweep->openedCellsCount);
+    TEST_ASSERT_EQUAL_INT(12, bitSweepOpenedCellsCount(bitSweep));
 }
 
 void Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened()
@@ -222,7 +222,7 @@ void Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened()
 
     printBitSweep(game);
 
-    TEST_ASSERT_TRUE(game->isFinished);
+    TEST_ASSERT_TRUE(bitSweepIsFinished(game));
 
     freeBitSweep(game);
 }

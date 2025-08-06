@@ -2,6 +2,7 @@
 
 #include "bit-sweep-allocator.h"
 #include "bit-sweep-printer.h"
+#include "cell.h"
 
 unsigned bitSweepWidth(const BitSweep* bitSweep);
 

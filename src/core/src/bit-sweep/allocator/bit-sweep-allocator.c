@@ -1,4 +1,5 @@
 #include "bit-sweep-allocator.h"
+#include "bit-sweep-internal.h"
 #include "safe-memory.h"
 #include "stdlib.h"
 
