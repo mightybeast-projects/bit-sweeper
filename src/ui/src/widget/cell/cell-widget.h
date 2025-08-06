@@ -8,9 +8,10 @@ typedef struct CellWidget
     bool isClicked;
     Rectangle rect;
     Cell* cell;
+    BitSweep* bitSweep;
 } CellWidget;
 
-CellWidget* allocateCellWidget(Rectangle rect, Cell* cell);
+CellWidget* allocateCellWidget(const Rectangle rect, Cell* cell, BitSweep* bitSweep);
 
 void handleCellWidgetInput(CellWidget* widget);
 

@@ -12,12 +12,13 @@ static void drawCellMark(const Rectangle rect, const Cell* cell);
 
 static void drawCellValue(const Rectangle rect, const Cell* cell);
 
-CellWidget* allocateCellWidget(Rectangle rect, Cell* cell)
+CellWidget* allocateCellWidget(const Rectangle rect, Cell* cell, BitSweep* bitSweep)
 {
     CellWidget* widget = safeMalloc(sizeof(struct CellWidget));
 
     widget->rect = rect;
     widget->cell = cell;
+    widget->bitSweep = bitSweep;
 
     return widget;
 }
@@ -26,16 +27,17 @@ void handleCellWidgetInput(CellWidget* widget)
 {
     const Vector2 mousePos = GetMousePosition();
     const Rectangle rect = widget->rect;
+    const Cell* cell = widget->cell;
 
     bool mouseCollides = CheckCollisionPointRec(mousePos, rect);
 
     widget->isClicked = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && mouseCollides;
 
     if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON) && mouseCollides)
-        openCell(widget->cell);
+        openCellAt(widget->bitSweep, cellI(cell), cellJ(cell));
 
     if (IsMouseButtonReleased(MOUSE_RIGHT_BUTTON) && mouseCollides)
-        toggleCellMark(widget->cell);
+        toggleCellMark(cell);
 }
 
 void drawCellWidget(const CellWidget* widget)
@@ -62,7 +64,7 @@ static void drawCellBackground(const CellWidget* widget, const Cell* cell)
 {
     if (cellIsOpened(cell) && cellContainsBomb(cell))
         DrawRectangleRounded(widget->rect, 0.1, 10, RED);
-    else if (cellIsOpened(cell) || widget->isClicked)
+    else if (cellIsOpened(cell) || (widget->isClicked && !bitSweepIsFinished(widget->bitSweep)))
         DrawRectangleRounded(widget->rect, 0.1, 10, (Color) { 60, 60, 60, 255 });
     else if (!cellIsOpened(cell))
         DrawRectangleRounded(widget->rect, 0.1, 10, (Color) { 75, 75, 75, 255 });

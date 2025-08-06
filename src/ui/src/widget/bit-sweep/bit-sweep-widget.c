@@ -4,16 +4,15 @@
 BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
 {
     BitSweepWidget* widget = safeMalloc(sizeof(struct BitSweepWidget));
+    BitSweep* bitSweep = allocateBitSweep(params);
 
-    widget->bitSweep = allocateBitSweep(params);
-
-    int width = bitSweepWidth(widget->bitSweep);
-    int height = bitSweepHeight(widget->bitSweep);
+    int width = bitSweepWidth(bitSweep);
+    int height = bitSweepHeight(bitSweep);
 
     CellWidget*** cellsWidgets = safeMalloc(sizeof(CellWidget**) * width);
 
     int cellCount = width;
-    float margin = 2;
+    float margin = 5;
     float size = (500 - (cellCount - 1) * margin - margin * 2) / cellCount;
 
     for (int i = 0; i < width; i++)
@@ -26,14 +25,15 @@ BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
             float y = j * (size + margin) + margin;
             Rectangle rect = { x, y, size, size };
 
-            Cell* cell = bitSweepCells(widget->bitSweep)[i][j];
+            Cell* cell = bitSweepCells(bitSweep)[i][j];
 
-            CellWidget* cellWidget = allocateCellWidget(rect, cell);
+            CellWidget* cellWidget = allocateCellWidget(rect, cell, bitSweep);
 
             cellsWidgets[i][j] = cellWidget;
         }
     }
 
+    widget->bitSweep = bitSweep;
     widget->cellsWidgets = cellsWidgets;
 
     return widget;
