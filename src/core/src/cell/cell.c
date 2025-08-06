@@ -61,6 +61,9 @@ bool cellIsMarked(const Cell* cell)
 
 void toggleCellMark(Cell* cell)
 {
+    if (cell->isOpened)
+        return;
+
     cell->isMarked = !cell->isMarked;
 }
 

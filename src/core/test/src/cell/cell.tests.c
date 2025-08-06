@@ -168,6 +168,15 @@ void Cell_Mark_Toggle_Should_Toggle_Mark()
     TEST_ASSERT_FALSE(cellIsMarked(cell));
 }
 
+void Cell_Should_Not_Toggle_Its_Mark_If_Its_Opened()
+{
+    openCell(cell);
+
+    toggleCellMark(cell);
+
+    TEST_ASSERT_FALSE(cellIsMarked(cell));
+}
+
 void testCell(void)
 {
     RUN_TEST(Cell_Allocation_Should_Return_Allocated_Cell);
@@ -193,4 +202,5 @@ void testCell(void)
     RUN_TEST(Cell_Should_Not_Open_If_It_Is_Marked);
 
     RUN_TEST(Cell_Mark_Toggle_Should_Toggle_Mark);
+    RUN_TEST(Cell_Should_Not_Toggle_Its_Mark_If_Its_Opened);
 }
