@@ -148,6 +148,15 @@ void Cell_Open_Should_Changed_Opened_State()
     TEST_ASSERT_TRUE(cellIsOpened(cell));
 }
 
+void Cell_Should_Not_Open_If_It_Is_Marked()
+{
+    toggleCellMark(cell);
+
+    openCell(cell);
+
+    TEST_ASSERT_FALSE(cellIsOpened(cell));
+}
+
 void Cell_Mark_Toggle_Should_Toggle_Mark()
 {
     toggleCellMark(cell);
@@ -181,6 +190,7 @@ void testCell(void)
     RUN_TEST(Cell_Should_Calculate_Its_Value_By_Checking_Neighbours_Bombs);
 
     RUN_TEST(Cell_Open_Should_Changed_Opened_State);
+    RUN_TEST(Cell_Should_Not_Open_If_It_Is_Marked);
 
     RUN_TEST(Cell_Mark_Toggle_Should_Toggle_Mark);
 }

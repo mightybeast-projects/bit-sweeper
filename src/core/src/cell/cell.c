@@ -48,6 +48,9 @@ bool cellIsOpened(const Cell* cell)
 
 void openCell(Cell* cell)
 {
+    if (cell->isMarked)
+        return;
+
     cell->isOpened = true;
 }
 
