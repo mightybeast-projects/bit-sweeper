@@ -1,14 +1,16 @@
+#pragma once
+
 #include "bit-sweep.h"
 #include "raylib.h"
 
 typedef struct CellWidget
 {
+    bool isClicked;
     Rectangle rect;
     Cell* cell;
-    bool isClicked;
 } CellWidget;
 
-CellWidget* allocateCellWidget(Rectangle rect);
+CellWidget* allocateCellWidget(Rectangle rect, Cell* cell);
 
 void handleCellWidgetInput(CellWidget* widget);
 

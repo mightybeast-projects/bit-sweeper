@@ -12,12 +12,12 @@ static void drawCellMark(const Rectangle rect, const Cell* cell);
 
 static void drawCellValue(const Rectangle rect, const Cell* cell);
 
-CellWidget* allocateCellWidget(Rectangle rect)
+CellWidget* allocateCellWidget(Rectangle rect, Cell* cell)
 {
     CellWidget* widget = safeMalloc(sizeof(struct CellWidget));
 
     widget->rect = rect;
-    widget->cell = allocateCell();
+    widget->cell = cell;
 
     return widget;
 }
@@ -40,8 +40,8 @@ void handleCellWidgetInput(CellWidget* widget)
 
 void drawCellWidget(const CellWidget* widget)
 {
-    Rectangle rect = widget->rect;
-    Cell* cell = widget->cell;
+    const Rectangle rect = widget->rect;
+    const Cell* cell = widget->cell;
 
     drawCellBackground(widget, cell);
 
@@ -70,9 +70,9 @@ static void drawCellBackground(const CellWidget* widget, const Cell* cell)
 
 static void drawCellMark(const Rectangle rect, const Cell* cell)
 {
-    int x = rect.x + rect.width / 2.05;
-    int y = rect.y + rect.width / 5;
-    int fontSize = rect.width / 1.5;
+    const float x = rect.x + rect.width / 2.05;
+    const float y = rect.y + rect.width / 5;
+    const int fontSize = rect.width / 1.4;
 
     DrawText("!", x, y, fontSize, RED);
 }
@@ -81,9 +81,9 @@ static void drawCellValue(const Rectangle rect, const Cell* cell)
 {
     CellValue value = cellValue(cell);
 
-    int x = rect.x + rect.width / 2.75;
-    int y = rect.y + rect.width / 5;
-    int fontSize = rect.width / 1.5;
+    float x = rect.x + rect.width / 2.75;
+    float y = rect.y + rect.width / 5;
+    const int fontSize = rect.width / 1.4;
     Color color = colors[value];
 
     char str[2];
