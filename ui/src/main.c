@@ -5,17 +5,16 @@
 #include "raylib.h"
 #include "time.h"
 
+BitSweepWidget* widget;
+
+static void createNewGame();
+
 void main()
 {
     InitWindow(WIDTH, WIDTH, "BitSweeper");
     SetTargetFPS(60);
 
-    const int seed = time(NULL);
-    const int cols = 20;
-    const int rows = 20;
-    const int bombCount = 60;
-    BitSweepParams params = { seed, cols, rows, bombCount };
-    BitSweepWidget* widget = allocateBitSweepWidget(params);
+    createNewGame();
 
     while (!WindowShouldClose())
     {
@@ -27,8 +26,8 @@ void main()
         if (bitSweepIsFinished(widget->bitSweep) && IsKeyDown(KEY_R))
         {
             freeBitSweepWidget(widget);
-            params.seed += time(NULL);
-            widget = allocateBitSweepWidget(params);
+
+            createNewGame();
         }
 
         EndDrawing();
@@ -37,4 +36,11 @@ void main()
     CloseWindow();
 
     freeBitSweepWidget(widget);
+}
+
+void createNewGame()
+{
+    BitSweepParams params = { time(NULL), COLS, COLS, BOMB_COUNT };
+
+    widget = allocateBitSweepWidget(params);
 }

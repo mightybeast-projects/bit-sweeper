@@ -4,6 +4,8 @@
 
 static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep);
 
+static void drawRestartMessage();
+
 BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
 {
     BitSweepWidget* widget = safeMalloc(sizeof(struct BitSweepWidget));
@@ -32,15 +34,7 @@ void drawBitSweepWidget(const BitSweepWidget* widget)
     }
 
     if (bitSweepIsFinished(widget->bitSweep))
-    {
-        const int fontSize = 30;
-        const char* str = "Press R to restart.";
-        const int textWidth = MeasureText(str, fontSize);
-        const int x = WIDTH / 2 - textWidth / 2;
-        const int y = WIDTH / 2 + textWidth / 2;
-
-        DrawText(str, x, y, fontSize, WHITE);
-    }
+        drawRestartMessage();
 }
 
 void freeBitSweepWidget(BitSweepWidget* widget)
@@ -93,4 +87,15 @@ static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep)
     }
 
     return cellsWidgets;
+}
+
+static void drawRestartMessage()
+{
+    const int fontSize = 30;
+    const char* str = "Press R to restart.";
+    const int textWidth = MeasureText(str, fontSize);
+    const int x = WIDTH / 2 - textWidth / 2;
+    const int y = WIDTH / 2 + textWidth / 2;
+
+    DrawText(str, x, y, fontSize, WHITE);
 }

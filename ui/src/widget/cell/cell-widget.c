@@ -62,9 +62,11 @@ void freeCellWidget(CellWidget* widget)
 
 static void drawCellBackground(const CellWidget* widget, const Cell* cell)
 {
+    const bool gameIsFinished = bitSweepIsFinished(widget->bitSweep);
+
     if (cellIsOpened(cell) && cellContainsBomb(cell))
         DrawRectangleRounded(widget->rect, 0.1, 10, RED);
-    else if (cellIsOpened(cell) || (widget->isClicked && !bitSweepIsFinished(widget->bitSweep)))
+    else if (cellIsOpened(cell) || (widget->isClicked && !gameIsFinished))
         DrawRectangleRounded(widget->rect, 0.1, 10, (Color) { 60, 60, 60, 255 });
     else if (!cellIsOpened(cell))
         DrawRectangleRounded(widget->rect, 0.1, 10, (Color) { 75, 75, 75, 255 });
@@ -84,9 +86,9 @@ static void drawCellValue(const Rectangle rect, const Cell* cell)
     CellValue value = cellValue(cell);
 
     float x = rect.x + rect.width / 2.75;
-    float y = rect.y + rect.width / 5;
+    const float y = rect.y + rect.width / 5;
     const int fontSize = rect.width / 1.4;
-    Color color = colors[value];
+    const Color color = colors[value];
 
     char str[2];
 
