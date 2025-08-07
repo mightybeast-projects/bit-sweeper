@@ -2,11 +2,11 @@
 #include "config.h"
 #include "safe-memory.h"
 
-static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep);
+static CellWidget*** allocateCellsWidgets(BitSweep* const bitSweep);
 
-static void drawRestartMessage();
+static void drawRestartMessage(void);
 
-BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
+BitSweepWidget* allocateBitSweepWidget(const BitSweepParams params)
 {
     BitSweepWidget* widget = safeMalloc(sizeof(struct BitSweepWidget));
     BitSweep* bitSweep = allocateBitSweep(params);
@@ -17,27 +17,7 @@ BitSweepWidget* allocateBitSweepWidget(BitSweepParams params)
     return widget;
 }
 
-void drawBitSweepWidget(const BitSweepWidget* widget)
-{
-    CellWidget*** cellsWidgets = widget->cellsWidgets;
-
-    int width = bitSweepWidth(widget->bitSweep);
-    int height = bitSweepHeight(widget->bitSweep);
-
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < height; j++)
-        {
-            handleCellWidgetInput(cellsWidgets[i][j]);
-            drawCellWidget(cellsWidgets[i][j]);
-        }
-    }
-
-    if (bitSweepIsFinished(widget->bitSweep))
-        drawRestartMessage();
-}
-
-void freeBitSweepWidget(BitSweepWidget* widget)
+void freeBitSweepWidget(BitSweepWidget* const widget)
 {
     BitSweep* bitSweep = widget->bitSweep;
     CellWidget*** cellsWidgets = widget->cellsWidgets;
@@ -52,21 +32,40 @@ void freeBitSweepWidget(BitSweepWidget* widget)
             free(cellsWidgets[i]);
     }
 
-    free(widget->cellsWidgets);
-    freeBitSweep(widget->bitSweep);
+    free(cellsWidgets);
+    freeBitSweep(bitSweep);
     free(widget);
 }
 
-static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep)
+void drawBitSweepWidget(const BitSweepWidget* const widget)
 {
-    int width = bitSweepWidth(bitSweep);
-    int height = bitSweepHeight(bitSweep);
+    CellWidget*** cellsWidgets = widget->cellsWidgets;
+
+    const int width = bitSweepWidth(widget->bitSweep);
+    const int height = bitSweepHeight(widget->bitSweep);
+
+    for (int i = 0; i < width; i++)
+    {
+        for (int j = 0; j < height; j++)
+        {
+            handleCellWidgetInput(cellsWidgets[i][j]);
+            drawCellWidget(cellsWidgets[i][j]);
+        }
+    }
+
+    if (bitSweepIsFinished(widget->bitSweep))
+        drawRestartMessage();
+}
+
+static CellWidget*** allocateCellsWidgets(BitSweep* const bitSweep)
+{
+    const int width = bitSweepWidth(bitSweep);
+    const int height = bitSweepHeight(bitSweep);
 
     CellWidget*** cellsWidgets = safeMalloc(sizeof(CellWidget**) * width);
 
-    int cellCount = width;
-    float margin = 2;
-    float size = (WIDTH - (cellCount - 1) * margin - margin * 2) / cellCount;
+    const float margin = 2;
+    const float size = (WIDTH - (width - 1) * margin - margin * 2) / width;
 
     for (int i = 0; i < width; i++)
     {
@@ -89,7 +88,7 @@ static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep)
     return cellsWidgets;
 }
 
-static void drawRestartMessage()
+static void drawRestartMessage(void)
 {
     const int fontSize = 30;
     const char* str = "Press R to restart.";

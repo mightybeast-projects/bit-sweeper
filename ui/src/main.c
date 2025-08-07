@@ -7,9 +7,9 @@
 
 BitSweepWidget* widget;
 
-static void createNewGame();
+static void createNewGame(void);
 
-void main()
+void main(void)
 {
     InitWindow(WIDTH, WIDTH, "BitSweeper");
     SetTargetFPS(60);
@@ -38,7 +38,7 @@ void main()
     freeBitSweepWidget(widget);
 }
 
-void createNewGame()
+void createNewGame(void)
 {
     BitSweepParams params = { time(NULL), COLS, COLS, BOMB_COUNT };
 

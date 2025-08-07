@@ -6,13 +6,14 @@ const static Color colors[10] = {
     BLANK, SKYBLUE, GREEN, PINK, PURPLE, ORANGE, BLUE, YELLOW, GRAY, BLACK
 };
 
-static void drawCellBackground(const CellWidget* widget, const Cell* cell);
+static void drawCellBackground(const CellWidget* const widget, const Cell* const cell);
+static void drawCellMark(const Rectangle rect, const Cell* const cell);
+static void drawCellValue(const Rectangle rect, const Cell* const cell);
 
-static void drawCellMark(const Rectangle rect, const Cell* cell);
-
-static void drawCellValue(const Rectangle rect, const Cell* cell);
-
-CellWidget* allocateCellWidget(const Rectangle rect, Cell* cell, BitSweep* bitSweep)
+CellWidget* allocateCellWidget(
+    const Rectangle rect,
+    Cell* const cell,
+    BitSweep* const bitSweep)
 {
     CellWidget* widget = safeMalloc(sizeof(struct CellWidget));
 
@@ -23,14 +24,19 @@ CellWidget* allocateCellWidget(const Rectangle rect, Cell* cell, BitSweep* bitSw
     return widget;
 }
 
-void handleCellWidgetInput(CellWidget* widget)
+void freeCellWidget(CellWidget* const widget)
+{
+    free(widget);
+}
+
+void handleCellWidgetInput(CellWidget* const widget)
 {
     const Vector2 mousePos = GetMousePosition();
     const Rectangle rect = widget->rect;
 
     Cell* cell = widget->cell;
 
-    bool mouseCollides = CheckCollisionPointRec(mousePos, rect);
+    const bool mouseCollides = CheckCollisionPointRec(mousePos, rect);
 
     widget->isClicked = IsMouseButtonDown(MOUSE_LEFT_BUTTON) && mouseCollides;
 
@@ -41,7 +47,7 @@ void handleCellWidgetInput(CellWidget* widget)
         toggleCellMarkAt(widget->bitSweep, cellI(cell), cellJ(cell));
 }
 
-void drawCellWidget(const CellWidget* widget)
+void drawCellWidget(const CellWidget* const widget)
 {
     const Rectangle rect = widget->rect;
     const Cell* cell = widget->cell;
@@ -55,12 +61,7 @@ void drawCellWidget(const CellWidget* widget)
         drawCellValue(rect, cell);
 }
 
-void freeCellWidget(CellWidget* widget)
-{
-    free(widget);
-}
-
-static void drawCellBackground(const CellWidget* widget, const Cell* cell)
+static void drawCellBackground(const CellWidget* const widget, const Cell* const cell)
 {
     const bool gameIsFinished = bitSweepIsFinished(widget->bitSweep);
 
@@ -81,13 +82,13 @@ static void drawCellMark(const Rectangle rect, const Cell* cell)
     DrawText("!!!", x, y, fontSize, RED);
 }
 
-static void drawCellValue(const Rectangle rect, const Cell* cell)
+static void drawCellValue(const Rectangle rect, const Cell* const cell)
 {
-    CellValue value = cellValue(cell);
-
     float x = rect.x + rect.width / 2.75;
+
     const float y = rect.y + rect.width / 5;
     const int fontSize = rect.width / 1.4;
+    const CellValue value = cellValue(cell);
     const Color color = colors[value];
 
     char str[2];

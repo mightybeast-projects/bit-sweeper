@@ -97,7 +97,7 @@ Cell** cellNeighbours(const Cell* const cell)
 
 void addCellNeighbour(Cell* const cell, Cell* const neighbour)
 {
-    const Cell** ptr = cell->neighbours;
+    Cell** ptr = cell->neighbours;
     int nCount = 0;
 
     while (*ptr && nCount < NEIGHBOURS_COUNT)

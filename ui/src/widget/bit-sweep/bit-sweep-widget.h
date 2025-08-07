@@ -9,8 +9,7 @@ typedef struct BitSweepWidget
     BitSweep* bitSweep;
 } BitSweepWidget;
 
-BitSweepWidget* allocateBitSweepWidget(BitSweepParams params);
+BitSweepWidget* allocateBitSweepWidget(const BitSweepParams params);
+void freeBitSweepWidget(BitSweepWidget* const widget);
 
-void drawBitSweepWidget(const BitSweepWidget* widget);
-
-void freeBitSweepWidget(BitSweepWidget* widget);
+void drawBitSweepWidget(const BitSweepWidget* const widget);
