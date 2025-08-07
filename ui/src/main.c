@@ -13,7 +13,7 @@ void main()
     const int seed = time(NULL);
     const int cols = 20;
     const int rows = 20;
-    const int bombCount = 50;
+    const int bombCount = 60;
     BitSweepParams params = { seed, cols, rows, bombCount };
     BitSweepWidget* widget = allocateBitSweepWidget(params);
 

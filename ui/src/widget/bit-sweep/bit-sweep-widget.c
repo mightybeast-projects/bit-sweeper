@@ -71,7 +71,7 @@ static CellWidget*** allocateCellsWidgets(BitSweep* bitSweep)
     CellWidget*** cellsWidgets = safeMalloc(sizeof(CellWidget**) * width);
 
     int cellCount = width;
-    float margin = 5;
+    float margin = 2;
     float size = (WIDTH - (cellCount - 1) * margin - margin * 2) / cellCount;
 
     for (int i = 0; i < width; i++)
