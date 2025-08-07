@@ -1,6 +1,6 @@
-[submodule "src/ui/lib/raylib"]
-	path = src/ui/lib/raylib
-	url = https://github.com/raysan5/raylib.git
-[submodule "lib/unity"]
-	path = lib/unity
+[submodule "core/test/lib/unity"]
+	path = core/test/lib/unity
 	url = https://github.com/ThrowTheSwitch/Unity.git
+[submodule "ui/lib/raylib"]
+	path = ui/lib/raylib
+	url = https://github.com/raysan5/raylib.git

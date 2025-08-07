@@ -18,7 +18,7 @@
 			"type": "shell",
 			"command": "./bitsweeper-core-tests",
 			"options": {
-				"cwd": "${workspaceFolder}/build/src/core/test"
+				"cwd": "${workspaceFolder}/build/core/test"
 			},
 			"group": "test",
 			"presentation": {
