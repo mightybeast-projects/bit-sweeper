@@ -4,19 +4,19 @@
 #include "stdbool.h"
 #include "unity.h"
 
-void setUp()
+void setUp(void)
 {
     setUpCell();
     setUpBitSweep();
 }
 
-void tearDown()
+void tearDown(void)
 {
     tearDownCell();
     tearDownBitSweep();
 }
 
-int main()
+int main(void)
 {
     UNITY_BEGIN();
 

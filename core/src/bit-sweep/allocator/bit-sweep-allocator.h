@@ -10,6 +10,5 @@ typedef struct BitSweepParams
     unsigned bombCount;
 } BitSweepParams;
 
-BitSweep* allocateBitSweep(BitSweepParams params);
-
-void freeBitSweep(BitSweep* bitSweep);
+BitSweep* allocateBitSweep(const BitSweepParams params);
+void freeBitSweep(BitSweep* const bitSweep);

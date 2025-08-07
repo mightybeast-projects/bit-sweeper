@@ -19,31 +19,24 @@ typedef enum
 typedef struct Cell Cell;
 
 Cell* allocateCell(void);
+void freeCell(Cell* const cell);
 
-int cellI(const Cell* cell);
+int cellI(const Cell* const cell);
+int cellJ(const Cell* const cell);
+void setCellIndexes(Cell* const cell, int i, int j);
 
-int cellJ(const Cell* cell);
+bool cellIsOpened(const Cell* const cell);
+void openCell(Cell* const cell);
 
-bool cellIsOpened(const Cell* cell);
+bool cellIsMarked(const Cell* const cell);
+void toggleCellMark(Cell* const cell);
 
-void openCell(Cell* cell);
+bool cellContainsBomb(const Cell* const cell);
 
-bool cellIsMarked(const Cell* cell);
+CellValue cellValue(const Cell* const cell);
+void setCellValue(Cell* const cell, CellValue value);
 
-void toggleCellMark(Cell* cell);
+Cell** cellNeighbours(const Cell* const cell);
+void addCellNeighbour(Cell* const cell, Cell* const neighbour);
 
-bool cellContainsBomb(const Cell* cell);
-
-CellValue cellValue(const Cell* cell);
-
-void setCellValue(Cell* cell, CellValue value);
-
-void setCellIndexes(Cell* cell, int i, int j);
-
-Cell** cellNeighbours(const Cell* cell);
-
-void addCellNeighbour(Cell* cell, Cell* neighbour);
-
-void calculateCellValue(Cell* cell);
-
-void freeCell(Cell* cell);
+void calculateCellValue(Cell* const cell);

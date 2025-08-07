@@ -1,5 +1,3 @@
-void setUpBitSweep();
-
-void tearDownBitSweep();
-
-void testBitSweep();
+void setUpBitSweep(void);
+void tearDownBitSweep(void);
+void testBitSweep(void);

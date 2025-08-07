@@ -30,17 +30,32 @@ Cell* allocateCell(void)
     return cell;
 }
 
-int cellI(const Cell* cell)
+void freeCell(Cell* const cell)
+{
+    if (!cell)
+        return;
+
+    free(cell->neighbours);
+    free(cell);
+}
+
+int cellI(const Cell* const cell)
 {
     return cell->i;
 }
 
-int cellJ(const Cell* cell)
+int cellJ(const Cell* const cell)
 {
     return cell->j;
 }
 
-bool cellIsOpened(const Cell* cell)
+void setCellIndexes(Cell* const cell, int i, int j)
+{
+    cell->i = i;
+    cell->j = j;
+}
+
+bool cellIsOpened(const Cell* const cell)
 {
     return cell->isOpened;
 }
@@ -50,7 +65,7 @@ void openCell(Cell* cell)
     cell->isOpened = true;
 }
 
-bool cellIsMarked(const Cell* cell)
+bool cellIsMarked(const Cell* const cell)
 {
     return cell->isMarked;
 }
@@ -60,35 +75,29 @@ void toggleCellMark(Cell* cell)
     cell->isMarked = !cell->isMarked;
 }
 
-bool cellContainsBomb(const Cell* cell)
+bool cellContainsBomb(const Cell* const cell)
 {
     return cell->value == BOMB;
 }
 
-CellValue cellValue(const Cell* cell)
+CellValue cellValue(const Cell* const cell)
 {
     return cell->value;
 }
 
-void setCellValue(Cell* cell, CellValue value)
+void setCellValue(Cell* const cell, CellValue value)
 {
     cell->value = value;
 }
 
-void setCellIndexes(Cell* cell, int i, int j)
-{
-    cell->i = i;
-    cell->j = j;
-}
-
-Cell** cellNeighbours(const Cell* cell)
+Cell** cellNeighbours(const Cell* const cell)
 {
     return cell->neighbours;
 }
 
-void addCellNeighbour(Cell* cell, Cell* neighbour)
+void addCellNeighbour(Cell* const cell, Cell* const neighbour)
 {
-    Cell** ptr = cell->neighbours;
+    const Cell** ptr = cell->neighbours;
     int nCount = 0;
 
     while (*ptr && nCount < NEIGHBOURS_COUNT)
@@ -106,7 +115,7 @@ void addCellNeighbour(Cell* cell, Cell* neighbour)
     *ptr = neighbour;
 }
 
-void calculateCellValue(Cell* cell)
+void calculateCellValue(Cell* const cell)
 {
     if (cellContainsBomb(cell))
         return;
@@ -118,13 +127,4 @@ void calculateCellValue(Cell* cell)
             value++;
 
     cell->value = value;
-}
-
-void freeCell(Cell* cell)
-{
-    if (!cell)
-        return;
-
-    free(cell->neighbours);
-    free(cell);
 }

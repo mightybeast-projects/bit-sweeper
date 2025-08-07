@@ -2,11 +2,10 @@
 #include "bit-sweep-internal.h"
 #include "stdio.h"
 
-static void printCellValues(const BitSweep* bitSweep);
+static void printCellValues(const BitSweep* const bitSweep);
+static void printCells(const BitSweep* const bitSweep);
 
-static void printCells(const BitSweep* bitSweep);
-
-void printBitSweep(const BitSweep* bitSweep)
+void printBitSweep(const BitSweep* const bitSweep)
 {
     printf("\n");
     printCellValues(bitSweep);
@@ -15,7 +14,7 @@ void printBitSweep(const BitSweep* bitSweep)
     printf("\n");
 }
 
-static void printCellValues(const BitSweep* bitSweep)
+static void printCellValues(const BitSweep* const bitSweep)
 {
     Cell*** cells = bitSweep->cells;
 
@@ -37,7 +36,7 @@ static void printCellValues(const BitSweep* bitSweep)
     }
 }
 
-static void printCells(const BitSweep* bitSweep)
+static void printCells(const BitSweep* const bitSweep)
 {
     Cell*** cells = bitSweep->cells;
 

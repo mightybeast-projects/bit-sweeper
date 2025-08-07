@@ -2,4 +2,4 @@
 
 typedef struct BitSweep BitSweep;
 
-void printBitSweep(const BitSweep* bitSweep);
+void printBitSweep(const BitSweep* const bitSweep);

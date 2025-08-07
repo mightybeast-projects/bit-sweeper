@@ -2,7 +2,7 @@
 #include "cell.h"
 #include "unity.h"
 
-Cell* cell;
+static Cell* cell;
 
 void setUpCell(void)
 {

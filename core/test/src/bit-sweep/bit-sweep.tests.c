@@ -2,16 +2,16 @@
 #include "bit-sweep.h"
 #include "unity.h"
 
-static unsigned seed = 1;
-static unsigned width = 10;
-static unsigned height = 10;
-static unsigned bombCount = 15;
+static const unsigned seed = 1;
+static const unsigned width = 10;
+static const unsigned height = 10;
+static const unsigned bombCount = 15;
 
-BitSweep* bitSweep;
+static BitSweep* bitSweep;
 
 void setUpBitSweep(void)
 {
-    BitSweepParams params = { seed, width, height, bombCount };
+    const BitSweepParams params = { seed, width, height, bombCount };
 
     bitSweep = allocateBitSweep(params);
 }
@@ -30,7 +30,7 @@ void Bit_Sweep_Allocation_Should_Allocate_New_Bit_Sweep()
 
 void Bit_Sweep_Allocation_Should_Not_Allocate_New_Bit_Sweep_If_Bomb_Count_Is_Higher_Than_Cells_Count()
 {
-    BitSweepParams params = { seed, width, height, 200 };
+    const BitSweepParams params = { seed, width, height, 200 };
 
     BitSweep* res = allocateBitSweep(params);
 
@@ -72,7 +72,7 @@ void Allocated_Bit_Sweep_Should_Have_Initialized_Cells_Indexes()
     {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
         {
-            Cell* cell = cells[i][j];
+            const Cell* cell = cells[i][j];
 
             TEST_ASSERT_EQUAL_UINT(i, cellI(cell));
             TEST_ASSERT_EQUAL_UINT(j, cellJ(cell));
@@ -104,7 +104,7 @@ void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
     {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
         {
-            Cell* cell = cells[i][j];
+            const Cell* cell = cells[i][j];
 
             if (cellValue(cell) != ZERO && !cellContainsBomb(cell))
                 nonZeroValue = true;
@@ -121,14 +121,14 @@ void Allocated_Bit_Sweep_Should_Have_Non_Bomb_Cells_Count_Equal_To_All_Cells_Min
 
 void Bit_Sweep_Should_Return_Opened_Cell_After_Opening_One()
 {
-    Cell* cell = openCellAt(bitSweep, 0, 0);
+    const Cell* cell = openCellAt(bitSweep, 0, 0);
 
     TEST_ASSERT_EQUAL(bitSweepCells(bitSweep)[0][0], cell);
 }
 
 void Bit_Sweep_Should_Open_Cell_At_Position()
 {
-    Cell* cell = openCellAt(bitSweep, 4, 5);
+    const Cell* cell = openCellAt(bitSweep, 4, 5);
 
     TEST_ASSERT_TRUE(cellIsOpened(cell));
 }
@@ -139,7 +139,7 @@ void Bit_Sweep_Should_Not_Open_Marked_Cell()
 
     toggleCellMark(cell);
 
-    Cell* res = openCellAt(bitSweep, 5, 5);
+    const Cell* res = openCellAt(bitSweep, 5, 5);
 
     TEST_ASSERT_FALSE(cellIsOpened(cell));
     TEST_ASSERT_EQUAL(res, cell);
@@ -171,7 +171,7 @@ void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Bomb()
 
 void Bit_Sweep_Should_Open_Only_Selected_Cell_If_It_Has_Non_Zero_Value()
 {
-    Cell* cell = openCellAt(bitSweep, 1, 0);
+    const Cell* cell = openCellAt(bitSweep, 1, 0);
     Cell*** cells = bitSweepCells(bitSweep);
 
     TEST_ASSERT_FALSE(cellIsOpened(cells[0][0]));
@@ -214,7 +214,7 @@ void Bit_Sweep_Should_Add_To_Opened_Cells_Count_On_Cell_Open()
 
 void Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened()
 {
-    BitSweepParams params = { 1, 2, 1, 1 };
+    const BitSweepParams params = { 1, 2, 1, 1 };
 
     BitSweep* game = allocateBitSweep(params);
 
@@ -229,7 +229,7 @@ void Bit_Sweep_Should_Finish_Itself_If_All_Non_Bomb_Cells_Are_Opened()
 
 void Bit_Sweep_Should_Finish_Itself_If_Bomb_Cell_Was_Opened()
 {
-    Cell* res = openCellAt(bitSweep, 2, 1);
+    const Cell* res = openCellAt(bitSweep, 2, 1);
 
     TEST_ASSERT_TRUE(bitSweepIsFinished(bitSweep));
     TEST_ASSERT_EQUAL(res, bitSweepCells(bitSweep)[2][1]);
@@ -273,17 +273,17 @@ void Bit_Sweep_Should_Not_Toggle_Cell_If_It_Is_Opened()
 
 void Bit_Sweep_Should_Not_Toggle_Cell_If_Game_Is_Finished()
 {
-    BitSweepParams params = { 1, 2, 1, 1 };
+    const BitSweepParams params = { 1, 2, 1, 1 };
 
     BitSweep* game = allocateBitSweep(params);
 
     openCellAt(game, 0, 0);
 
-    Cell* cell = toggleCellMarkAt(game, 0, 0);
+    const Cell* cell = toggleCellMarkAt(game, 0, 0);
 
     printBitSweep(game);
 
-    TEST_ASSERT_FALSE(cellIsMarked(bitSweepCells(bitSweep)[0][0]));
+    TEST_ASSERT_FALSE(cellIsMarked(cell));
 
     freeBitSweep(game);
 }
