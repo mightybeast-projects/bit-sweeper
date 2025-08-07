@@ -32,7 +32,15 @@ void drawBitSweepWidget(const BitSweepWidget* widget)
     }
 
     if (bitSweepIsFinished(widget->bitSweep))
-        DrawText("FINISHED", 0, 0, 20, RED);
+    {
+        const int fontSize = 30;
+        const char* str = "Press R to restart.";
+        const int textWidth = MeasureText(str, fontSize);
+        const int x = WIDTH / 2 - textWidth / 2;
+        const int y = WIDTH / 2 + textWidth / 2;
+
+        DrawText(str, x, y, fontSize, WHITE);
+    }
 }
 
 void freeBitSweepWidget(BitSweepWidget* widget)
@@ -41,7 +49,6 @@ void freeBitSweepWidget(BitSweepWidget* widget)
     CellWidget*** cellsWidgets = widget->cellsWidgets;
 
     for (int i = 0; i < bitSweepWidth(bitSweep); i++)
-
     {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
             if (cellsWidgets[i][j])

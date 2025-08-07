@@ -57,7 +57,6 @@ void drawCellWidget(const CellWidget* widget)
 
 void freeCellWidget(CellWidget* widget)
 {
-    freeCell(widget->cell);
     free(widget);
 }
 

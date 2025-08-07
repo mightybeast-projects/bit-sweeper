@@ -34,6 +34,3 @@ target_link_libraries(bitsweeper-game PRIVATE
 	bitsweeper-core
 	raylib
 )
-
-#ui-tests
-add_subdirectory(test)

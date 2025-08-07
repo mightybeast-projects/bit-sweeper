@@ -10,7 +10,11 @@ void main()
     InitWindow(WIDTH, WIDTH, "BitSweeper");
     SetTargetFPS(60);
 
-    BitSweepParams params = { 1, 10, 10, 10 };
+    const int seed = time(NULL);
+    const int cols = 20;
+    const int rows = 20;
+    const int bombCount = 50;
+    BitSweepParams params = { seed, cols, rows, bombCount };
     BitSweepWidget* widget = allocateBitSweepWidget(params);
 
     while (!WindowShouldClose())
@@ -20,8 +24,17 @@ void main()
 
         drawBitSweepWidget(widget);
 
+        if (bitSweepIsFinished(widget->bitSweep) && IsKeyDown(KEY_R))
+        {
+            freeBitSweepWidget(widget);
+            params.seed += time(NULL);
+            widget = allocateBitSweepWidget(params);
+        }
+
         EndDrawing();
     }
 
     CloseWindow();
+
+    freeBitSweepWidget(widget);
 }
