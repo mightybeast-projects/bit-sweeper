@@ -1,10 +1,8 @@
 # 💣️ **Bit-sweeper** 💥
 
-<img src="ui/examples/demo-1.gif" height="250">
-<img src="ui/examples/demo-3.gif" height="250">
+<img src="ui/examples/demo-1.gif" height="250"><img src="ui/examples/demo-3.gif" height="250">
 
-<img src="ui/examples/demo-4.gif" height="250">
-<img src="ui/examples/demo-2.gif" height="250">
+<img src="ui/examples/demo-4.gif" height="250"><img src="ui/examples/demo-2.gif" height="250">
 
 ## 📃 Description
 
