@@ -26,15 +26,6 @@
 				"panel": "shared"
 			},
 			"problemMatcher": []
-		},
-		{
-			"label": "Run All Tests",
-			"dependsOn": ["Build", "Run Core tests"],
-			"dependsOrder": "sequence",
-			"group": {
-				"kind": "test",
-				"isDefault": true
-			}
 		}
 	]
 }
