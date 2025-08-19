@@ -6,9 +6,10 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+static MTState* allocateRandom(const unsigned seed);
 static Cell*** allocateCells(BitSweep* const bitSweep);
 static void initializeCells(BitSweep* const bitSweep);
-static void initializeBombIndexes(const BitSweep* const bitSweep, int bombIndexes[]);
+static void initializeBombIndexes(BitSweep* const bitSweep, int bombIndexes[]);
 static void placeBombs(BitSweep* const bitSweep, int bombsIndexes[]);
 static void assignCellValues(BitSweep* const bitSweep);
 static void assignCellValue(BitSweep* const bitSweep, const int i, const int j);
@@ -25,9 +26,8 @@ BitSweep* allocateBitSweep(const BitSweepParams params)
     bitSweep->bombCount = params.bombCount;
     bitSweep->isFinished = false;
     bitSweep->openedCellsCount = 0;
+    bitSweep->randomState = allocateRandom(params.seed);
     bitSweep->cells = allocateCells(bitSweep);
-
-    srand(params.seed);
 
     initializeCells(bitSweep);
 
@@ -50,7 +50,17 @@ void freeBitSweep(BitSweep* const bitSweep)
     }
 
     free(bitSweep->cells);
+    free(bitSweep->randomState);
     free(bitSweep);
+}
+
+static MTState* allocateRandom(const unsigned seed)
+{
+    MTState* state = safeMalloc(sizeof(struct MTState));
+
+    initializeMTRandom(state, seed);
+
+    return state;
 }
 
 static Cell*** allocateCells(BitSweep* const bitSweep)
@@ -85,11 +95,12 @@ static void initializeCells(BitSweep* const bitSweep)
     free(bombIndexes);
 }
 
-static void initializeBombIndexes(const BitSweep* const bitSweep, int bombIndexes[])
+static void initializeBombIndexes(BitSweep* const bitSweep, int bombIndexes[])
 {
     for (int i = 0; i < bitSweep->bombCount; i++)
     {
-        const int rIndex = rand() % (bitSweep->width * bitSweep->height);
+        const int rInt = nextMTRandom(bitSweep->randomState);
+        const int rIndex = rInt % (bitSweep->width * bitSweep->height);
 
         bool duplicated = false;
 

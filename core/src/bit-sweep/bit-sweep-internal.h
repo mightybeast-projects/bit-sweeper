@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cell.h"
+#include "mersenne-twister.h"
 
 typedef struct BitSweep
 {
@@ -9,5 +10,6 @@ typedef struct BitSweep
     unsigned bombCount;
     int openedCellsCount;
     bool isFinished;
+    MTState* randomState;
     Cell*** cells;
 } BitSweep;
