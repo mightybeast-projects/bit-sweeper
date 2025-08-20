@@ -1,5 +1,5 @@
-#include "bit-sweep.h"
 #include "bit-sweep-internal.h"
+#include "bit-sweep.h"
 #include "stdlib.h"
 
 static void openCellNeighbours(BitSweep* const bitSweep, const Cell* const cell);
@@ -54,8 +54,7 @@ Cell* openCellAt(BitSweep* const bitSweep, const int i, const int j)
     const bool gameWon = bitSweep->openedCellsCount == nonBombCellsCount;
     const bool gameLost = cellContainsBomb(cell);
 
-    if (gameWon || gameLost)
-    {
+    if (gameWon || gameLost) {
         bitSweep->isFinished = true;
         return cell;
     }
@@ -80,8 +79,7 @@ static void openCellNeighbours(BitSweep* const bitSweep, const Cell* const cell)
 {
     Cell** neighbours = cellNeighbours(cell);
 
-    for (; *neighbours; neighbours++)
-    {
+    for (; *neighbours; neighbours++) {
         const Cell* neighbour = *neighbours;
         const int i = cellI(neighbour);
         const int j = cellJ(neighbour);

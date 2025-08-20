@@ -1,5 +1,5 @@
-#include "cell.tests.h"
 #include "cell.h"
+#include "cell.tests.h"
 #include "unity.h"
 
 static Cell* cell;
@@ -100,8 +100,7 @@ void Cell_Should_Not_Add_Neighbour_If_It_Has_No_Space_For_One()
 {
     Cell* neighbour[10];
 
-    for (int i = 0; i < 10; i++)
-    {
+    for (int i = 0; i < 10; i++) {
         neighbour[i] = allocateCell();
         addCellNeighbour(cell, neighbour[i]);
     }

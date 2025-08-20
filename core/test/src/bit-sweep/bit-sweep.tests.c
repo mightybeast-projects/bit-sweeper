@@ -68,10 +68,8 @@ void Allocated_Bit_Sweep_Should_Have_Initialized_Cells_Indexes()
 {
     Cell*** cells = bitSweepCells(bitSweep);
 
-    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
-    {
-        for (int j = 0; j < bitSweepHeight(bitSweep); j++)
-        {
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++) {
+        for (int j = 0; j < bitSweepHeight(bitSweep); j++) {
             const Cell* cell = cells[i][j];
 
             TEST_ASSERT_EQUAL_UINT(i, cellI(cell));
@@ -100,10 +98,8 @@ void Allocated_Bit_Sweep_Should_Have_Some_Cells_With_Non_Zero_Values()
 
     Cell*** cells = bitSweepCells(bitSweep);
 
-    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
-    {
-        for (int j = 0; j < bitSweepHeight(bitSweep); j++)
-        {
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++) {
+        for (int j = 0; j < bitSweepHeight(bitSweep); j++) {
             const Cell* cell = cells[i][j];
 
             if (cellValue(cell) != ZERO && !cellContainsBomb(cell))

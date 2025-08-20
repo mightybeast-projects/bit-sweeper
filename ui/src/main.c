@@ -16,15 +16,13 @@ void main(void)
 
     createNewGame();
 
-    while (!WindowShouldClose())
-    {
+    while (!WindowShouldClose()) {
         ClearBackground((Color) { 46, 46, 46, 255 });
         BeginDrawing();
 
         drawBitSweepWidget(widget);
 
-        if (bitSweepIsFinished(widget->bitSweep) && IsKeyDown(KEY_R))
-        {
+        if (bitSweepIsFinished(widget->bitSweep) && IsKeyDown(KEY_R)) {
             freeBitSweepWidget(widget);
 
             createNewGame();

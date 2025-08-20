@@ -22,8 +22,7 @@ void freeBitSweepWidget(BitSweepWidget* const widget)
     BitSweep* bitSweep = widget->bitSweep;
     CellWidget*** cellsWidgets = widget->cellsWidgets;
 
-    for (int i = 0; i < bitSweepWidth(bitSweep); i++)
-    {
+    for (int i = 0; i < bitSweepWidth(bitSweep); i++) {
         for (int j = 0; j < bitSweepHeight(bitSweep); j++)
             if (cellsWidgets[i][j])
                 freeCellWidget(cellsWidgets[i][j]);
@@ -44,10 +43,8 @@ void drawBitSweepWidget(const BitSweepWidget* const widget)
     const int width = bitSweepWidth(widget->bitSweep);
     const int height = bitSweepHeight(widget->bitSweep);
 
-    for (int i = 0; i < width; i++)
-    {
-        for (int j = 0; j < height; j++)
-        {
+    for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
             handleCellWidgetInput(cellsWidgets[i][j]);
             drawCellWidget(cellsWidgets[i][j]);
         }
@@ -67,12 +64,10 @@ static CellWidget*** allocateCellsWidgets(BitSweep* const bitSweep)
     const float margin = 2;
     const float size = (WIDTH - (width - 1) * margin - margin * 2) / width;
 
-    for (int i = 0; i < width; i++)
-    {
+    for (int i = 0; i < width; i++) {
         cellsWidgets[i] = safeMalloc(sizeof(CellWidget*) * height);
 
-        for (int j = 0; j < height; j++)
-        {
+        for (int j = 0; j < height; j++) {
             float x = i * (size + margin) + margin;
             float y = j * (size + margin) + margin;
             Rectangle rect = { x, y, size, size };

@@ -6,8 +6,7 @@ void initializeMTRandom(MTState* state, uint32_t seed)
 
     stateArray[0] = seed;
 
-    for (int i = 1; i < N; i++)
-    {
+    for (int i = 1; i < N; i++) {
         seed = F * (seed ^ (seed >> (W - 2))) + i;
         stateArray[i] = seed;
     }

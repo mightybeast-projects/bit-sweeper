@@ -39,8 +39,7 @@ void freeBitSweep(BitSweep* const bitSweep)
     if (!bitSweep)
         return;
 
-    for (int i = 0; i < bitSweep->width; i++)
-    {
+    for (int i = 0; i < bitSweep->width; i++) {
         for (int j = 0; j < bitSweep->height; j++)
             if (bitSweep->cells[i][j])
                 freeCell(bitSweep->cells[i][j]);
@@ -67,12 +66,10 @@ static Cell*** allocateCells(BitSweep* const bitSweep)
 {
     Cell*** cells = safeMalloc(sizeof(Cell**) * bitSweep->width);
 
-    for (int i = 0; i < bitSweep->width; i++)
-    {
+    for (int i = 0; i < bitSweep->width; i++) {
         cells[i] = safeMalloc(sizeof(Cell*) * bitSweep->height);
 
-        for (int j = 0; j < bitSweep->height; j++)
-        {
+        for (int j = 0; j < bitSweep->height; j++) {
             Cell* cell = allocateCell();
 
             setCellIndexes(cell, i, j);
@@ -97,24 +94,20 @@ static void initializeCells(BitSweep* const bitSweep)
 
 static void initializeBombIndexes(BitSweep* const bitSweep, int bombIndexes[])
 {
-    for (int i = 0; i < bitSweep->bombCount; i++)
-    {
+    for (int i = 0; i < bitSweep->bombCount; i++) {
         const int rInt = nextMTRandom(bitSweep->randomState);
         const int rIndex = rInt % (bitSweep->width * bitSweep->height);
 
         bool duplicated = false;
 
-        for (int j = 0; j < i; j++)
-        {
-            if (bombIndexes[j] == rIndex)
-            {
+        for (int j = 0; j < i; j++) {
+            if (bombIndexes[j] == rIndex) {
                 duplicated = true;
                 break;
             }
         }
 
-        if (duplicated)
-        {
+        if (duplicated) {
             i--;
             continue;
         }
@@ -125,10 +118,8 @@ static void initializeBombIndexes(BitSweep* const bitSweep, int bombIndexes[])
 
 static void placeBombs(BitSweep* const bitSweep, int bombsIndexes[])
 {
-    for (int i = 0; i < bitSweep->width; i++)
-    {
-        for (int j = 0; j < bitSweep->height; j++)
-        {
+    for (int i = 0; i < bitSweep->width; i++) {
+        for (int j = 0; j < bitSweep->height; j++) {
             const int index = bitSweep->height * i + j;
 
             for (int k = 0; k < bitSweep->bombCount; k++)
@@ -155,10 +146,8 @@ static void assignCellValue(BitSweep* const bitSweep, const int i, const int j)
     const int minJ = MAX(0, j - 1);
     const int maxJ = MIN(j + 1, bitSweep->height - 1);
 
-    for (int k = minX; k <= maxX; k++)
-    {
-        for (int l = minJ; l <= maxJ; l++)
-        {
+    for (int k = minX; k <= maxX; k++) {
+        for (int l = minJ; l <= maxJ; l++) {
             if (k == i && l == j)
                 continue;
 

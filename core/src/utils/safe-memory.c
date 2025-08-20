@@ -4,8 +4,7 @@
 void* safeMalloc(size_t size)
 {
     void* p = malloc(size);
-    if (!p)
-    {
+    if (!p) {
         printf("Fatal: failed to allocate %zu bytes.\n", size);
         exit(1);
     }

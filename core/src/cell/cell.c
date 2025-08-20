@@ -100,8 +100,7 @@ void addCellNeighbour(Cell* const cell, Cell* const neighbour)
     Cell** ptr = cell->neighbours;
     int nCount = 0;
 
-    while (*ptr && nCount < NEIGHBOURS_COUNT)
-    {
+    while (*ptr && nCount < NEIGHBOURS_COUNT) {
         if (*ptr == neighbour)
             return;
 

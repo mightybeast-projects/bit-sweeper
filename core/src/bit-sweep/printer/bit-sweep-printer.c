@@ -1,5 +1,5 @@
-#include "bit-sweep-printer.h"
 #include "bit-sweep-internal.h"
+#include "bit-sweep-printer.h"
 #include "stdio.h"
 
 static void printCellValues(const BitSweep* const bitSweep);
@@ -18,10 +18,8 @@ static void printCellValues(const BitSweep* const bitSweep)
 {
     Cell*** cells = bitSweep->cells;
 
-    for (int i = 0; i < bitSweep->height; i++)
-    {
-        for (int j = 0; j < bitSweep->width; j++)
-        {
+    for (int i = 0; i < bitSweep->height; i++) {
+        for (int j = 0; j < bitSweep->width; j++) {
             Cell* cell = cells[j][i];
 
             if (cellValue(cell) == ZERO)
@@ -40,10 +38,8 @@ static void printCells(const BitSweep* const bitSweep)
 {
     Cell*** cells = bitSweep->cells;
 
-    for (int i = 0; i < bitSweep->height; i++)
-    {
-        for (int j = 0; j < bitSweep->width; j++)
-        {
+    for (int i = 0; i < bitSweep->height; i++) {
+        for (int j = 0; j < bitSweep->width; j++) {
             Cell* cell = cells[j][i];
 
             if (cellIsOpened(cell) && cellContainsBomb(cell))
